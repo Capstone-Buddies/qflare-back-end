@@ -67,3 +67,29 @@ This API documentation provides information on how to interact with the Qflare A
   - status code: `200 OK`
   - body:
     - `token` (string): The JWT token
+
+### 3 Error Codes
+
+#### 3.1. 400 Bad Request
+
+- **Description**: The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.
+- **Response**:
+  - status code: `400 Bad Request`
+  - body:
+    - `message` (string): The error message
+
+#### 3.2. 401 Unauthorized
+
+- **Description**: The request has not been applied because it lacks valid authentication credentials for the target resource.
+- **Response**:
+  - status code: `401 Unauthorized`
+  - body:
+    - `message` (string): The error message
+
+#### 3.3. 403 Forbidden
+
+- **Description**: The server understood the request but refuses to authorize it.
+- **Response**:
+  - status code: `403 Forbidden`
+  - body:
+    - `message` (string): The error message
