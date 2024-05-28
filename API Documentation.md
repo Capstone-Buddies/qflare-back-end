@@ -1,12 +1,13 @@
 # API Documentation
 
 ## Table of Contents
+
 - [API Documentation](#api-documentation)
-  - [1. Introduction](#1-introduction)
-  - [2. API Endpoints](#2-api-endpoints)
-    - [2.1. User](#21-user)
-      - [2.1.1. Register](#211-register)
-      - [2.1.2. Login](#212-login)
+  - [1. Introduction](#1.-introduction)
+  - [2. API Endpoints](#2.-api-endpoints)
+    - [2.1. User](#2.1.-user)
+      - [2.1.1. Register](#2.1.1.-register)
+      - [2.1.2. Login](#2.1.2.-login)
       - [2.1.3. Logout](#213-logout)
       - [2.1.4. Get User](#214-get-user)
       - [2.1.5. Update User](#215-update-user)
@@ -32,3 +33,37 @@
     - [3.1. 400 Bad Request](#31-400-bad-request)
     - [3.2. 401 Unauthorized](#32-401-unauthorized)
     - [3.3. 403 Forbidden](#33-403-forbidden)
+
+## 1. Introduction
+
+This API documentation provides information on how to interact with the Qflare API. The API is built using Node.js and Express.js. The database used is MySQL.
+
+## 2. API Endpoints
+
+### 2.1. User
+
+#### 2.1.1. Register
+
+- **Method**: `POST`
+- **URL**: `/api/users/register`
+- **Description**: Register a new user
+- **Request Body**:
+  - `username` (string): The username of the user
+  - `email` (string): The email of the user
+  - `password` (string): The password of the user
+- **Response**:
+  - status code: `201 Created`
+  - body: none
+
+#### 2.1.2. Login
+
+- **Method**: `POST`
+- **URL**: `/api/users/login`
+- **Description**: Login a user
+- **Request Body**:
+  - `email` (string): The email of the user
+  - `password` (string): The password of the user
+- **Response**:
+  - status code: `200 OK`
+  - body:
+    - `token` (string): The JWT token
