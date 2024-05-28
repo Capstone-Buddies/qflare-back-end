@@ -40,8 +40,11 @@ bun install
 3. Create a `.env` file in the root directory and add the following environment variables:
 
 ```env
-PORT=3000
-DATABASE_URL=mysql://root:password@localhost:3306/qflare
+PORT=
+MYSQL_DB_HOST=
+MYSQL_DB_USER=
+MYSQL_DB_PASSWORD=
+MYSQL_DB_NAME=
 ```
 
 ## Usage
