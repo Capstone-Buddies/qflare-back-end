@@ -6,14 +6,14 @@ import userRouter from "./routes/user.route";
 
 dotenv.config();
 
-const playground = express();
+const qFlareApp = express();
 const port = process.env.PORT || 3000;
 
-playground.use(cors());
-playground.use(express.json());
-playground.use(loggingMiddleware);
+qFlareApp.use(cors());
+qFlareApp.use(express.json());
+qFlareApp.use(loggingMiddleware);
 
-playground.get("/", (_req, res) => {
+qFlareApp.get("/", (_req, res) => {
   res
     .json({
       status: "ok",
@@ -22,9 +22,9 @@ playground.get("/", (_req, res) => {
     .status(200);
 });
 
-playground.use("/users", userRouter);
+qFlareApp.use("/users", userRouter);
 
-playground.listen(port, () => {
+qFlareApp.listen(port, () => {
   console.log("\x1b[34m", `[Express] listening at http://localhost:${port}`);
 });
 
