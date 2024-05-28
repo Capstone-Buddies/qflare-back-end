@@ -1,0 +1,48 @@
+{
+  "name": "capstone-back-end",
+  "version": "1.0.0",
+  "description": "Capstone project back end",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev:bun": "bun run --watch src/index.ts",
+    "dev:node": "nodemon",
+    "build:node": "npx tsc",
+    "build:bun": "bunx tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Capstone-Buddies/app-back-end.git"
+  },
+  "keywords": [
+    "back-end",
+    "Bangkit Academy 2024",
+    "capstone project",
+    "Express.js"
+  ],
+  "author": "Capstone Buddies",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Capstone-Buddies/app-back-end/issues"
+  },
+  "homepage": "https://github.com/Xrayya/express-playground#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.12.12",
+    "drizzle-kit": "^0.21.4",
+    "nodemon": "^3.1.1",
+    "tsx": "^4.11.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.30.10",
+    "express": "^4.19.2",
+    "mysql2": "^3.9.8",
+    "nanoid": "^5.0.7",
+    "zod": "^3.23.8",
+    "zod-express-middleware": "^1.4.0"
+  }
+}
