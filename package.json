@@ -7,7 +7,10 @@
     "dev:bun": "bun run --watch src/index.ts",
     "dev:node": "nodemon",
     "build:node": "npx tsc",
-    "build:bun": "bunx tsc"
+    "build:bun": "bunx tsc",
+    "migration:generate": "drizzle-kit generate",
+    "migrate:bun": "bun src/drizzle/migration.ts",
+    "migrate:node": "npx tsx src/drizzle/migration.ts"
   },
   "repository": {
     "type": "git",
