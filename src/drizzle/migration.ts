@@ -1,17 +1,17 @@
-// import { migrate } from "drizzle-orm/mysql2/migrator";
-// import { db, connection } from "./db.js";
+import { migrate } from "drizzle-orm/mysql2/migrator";
+import { db, connection } from "./db.js";
 
-// async function main() {
-//   console.log("Migrating database...");
+async function main() {
+  console.log("Migrating database...");
 
-//   await migrate(db, { migrationsFolder: "./drizzle" });
-//   await connection.end();
+  await migrate(db, { migrationsFolder: "./drizzle" });
+  connection.end();
 
-//   console.log("Migration done!");
-//   process.exit(0);
-// }
+  console.log("Migration done!");
+  process.exit(0);
+}
 
-// main().catch((err) => {
-//   console.error(err);
-//   process.exit(1);
-// });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
