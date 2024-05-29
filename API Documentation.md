@@ -51,9 +51,11 @@ This API documentation provides information on how to interact with the Qflare A
   - `username` (string): The username of the user
   - `email` (string): The email of the user
   - `password` (string): The password of the user
-- **Response**:
+- **Response (Success)**:
   - status code: `201 Created`
-  - body: none
+  - body:
+    - `status`: `success`
+    - `message`: `User registered successfully`
 
 #### 2.1.2. Login
 
@@ -66,6 +68,8 @@ This API documentation provides information on how to interact with the Qflare A
 - **Response**:
   - status code: `200 OK`
   - body:
+    - `status`: `success`
+    - `message`: `User logged in successfully`
     - `token` (string): The JWT token
 
 ### 3 Error Codes
