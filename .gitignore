@@ -133,3 +133,6 @@ dist
 bun.lockb
 package-lock.json
 yarn.lock
+
+# drizzle output files
+drizzle/
