@@ -136,3 +136,4 @@ yarn.lock
 
 # drizzle output files
 drizzle/
+!**/drizzle/
