@@ -1,16 +1,77 @@
-import { index, mysqlTable, bigint, varchar } from "drizzle-orm/mysql-core";
+import {
+  index,
+  mysqlTable,
+  varchar,
+  int,
+  timestamp,
+  text,
+  tinyint,
+  primaryKey,
+} from "drizzle-orm/mysql-core";
+
 export const users = mysqlTable(
-  "users",
+  "user",
   {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    fullName: varchar("full_name", { length: 256 }),
+    id: varchar("id", { length: 128 }).primaryKey().notNull(),
+    username: varchar("username", { length: 256 }).notNull(),
+    email: varchar("email", { length: 256 }).notNull(),
+    password: varchar("password", { length: 256 }).notNull(),
+    level: int("level").notNull().default(1),
+    exp: int("exp").notNull().default(0),
   },
   (users) => ({
-    nameIdx: index("name_idx").on(users.fullName),
+    nameIdx: index("email_idx").on(users.email),
   }),
 );
-export const authOtps = mysqlTable("auth_otp", {
-  id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-  phone: varchar("phone", { length: 256 }),
-  userId: bigint("user_id", { mode: "number" }).references(() => users.id),
+
+export const quizCategories = mysqlTable("quiz_category", {
+  id: int("id").primaryKey().autoincrement(),
+  quizType: varchar("quiz_type", { length: 256 }).notNull(),
+  quizCategory: varchar("quiz_category", { length: 256 }).notNull(),
 });
+
+export const quizQuestions = mysqlTable("quiz_question", {
+  id: int("id").primaryKey().autoincrement(),
+  quizCategoryId: int("quiz_category_id")
+    .references(() => quizCategories.id)
+    .notNull(),
+  question: text("question").notNull(),
+  option1: text("option1").notNull(),
+  option2: text("option2").notNull(),
+  option3: text("option3").notNull(),
+  option4: text("option4").notNull(),
+  answer: tinyint("answer").notNull(),
+});
+
+export const quizHistories = mysqlTable("quiz_history", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: varchar("user_id", { length: 256 })
+    .references(() => users.id)
+    .notNull(),
+  timestamp: timestamp("timestamp").notNull(),
+  grade: int("grade").notNull(),
+  level: int("level").notNull(),
+  quizCategoryId: int("quiz_category_id")
+    .references(() => quizCategories.id)
+    .notNull(),
+});
+
+export const answerHistories = mysqlTable(
+  "answer_history",
+  {
+    quizHistoryId: int("quiz_history_id")
+      .references(() => quizHistories.id)
+      .notNull(),
+    questionId: int("question_id")
+      .references(() => quizQuestions.id)
+      .notNull(),
+    user_answer: tinyint("user_answer").notNull(),
+    correctness: tinyint("correctness").notNull(),
+    duration: timestamp("duration").notNull(),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.quizHistoryId, table.questionId] }),
+    };
+  },
+);
