@@ -1,3 +1,4 @@
+import { UserType } from "@/drizzle/schema";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
@@ -5,11 +6,11 @@ import { users } from "../drizzle/schema";
 import { db } from "../drizzle/db";
 import { eq } from "drizzle-orm";
 
-const findUserByEmail = async (email: string) => {
+export const findUserByEmail = async (email: string) => {
   return await db.select().from(users).where(eq(users.email, email));
 };
 
-const createUserInDB = async (
+export const createUserInDB = async (
   username: string,
   email: string,
   password: string
@@ -27,7 +28,7 @@ const createUserInDB = async (
   return { userId, email };
 };
 
-const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string) => {
   return await db
     .select({
       id: users.id,
@@ -38,9 +39,17 @@ const getUserByEmail = async (email: string) => {
     .limit(1);
 };
 
-const generateToken = (userId: string, email: string) => {
+export const generateToken = (userId: string, email: string) => {
   const jwtSecret = process.env.JWT_SECRET as string;
   return jwt.sign({ userId, email }, jwtSecret, { expiresIn: "1d" });
 };
 
-export { findUserByEmail, createUserInDB, getUserByEmail, generateToken };
+export const getUsers = async (): Promise<UserType[]> => {
+  // TODO: Implement getUsers
+  return [];
+};
+
+export const getUserById = async (userId: string): Promise<UserType | null> => {
+  // TODO: Implement getUserById
+  return null;
+};
