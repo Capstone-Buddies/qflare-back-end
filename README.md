@@ -47,6 +47,29 @@ MYSQL_DB_PASSWORD=
 MYSQL_DB_NAME=
 ```
 
+4. Run the database migrations
+
+npm:
+
+```bash
+npm run migration:generate
+npm run migrate:node
+```
+
+yarn:
+
+```bash
+yarn migration:generate
+yarn migrate:node
+```
+
+bun:
+
+```bash
+bun migration:generate
+bun migrate:bun
+```
+
 ## Usage
 
 npm:
