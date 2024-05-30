@@ -135,5 +135,4 @@ package-lock.json
 yarn.lock
 
 # drizzle output files
-drizzle/
-!**/drizzle/
+drizzle_out/
