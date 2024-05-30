@@ -10,7 +10,7 @@ import {
 const success: string = "success";
 
 //Register User
-const registerUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
   const {
     username,
     email,
@@ -55,7 +55,7 @@ const registerUser = async (req: Request, res: Response) => {
 };
 
 //Login User
-const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response) => {
   const { email, password }: { email: string; password: string } = req.body;
 
   if (!email || !password) {
@@ -95,4 +95,31 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser as createUser, loginUser };
+export const getUserProfile = async (req: Request, res: Response) => {
+  // TODO: Implement getUserProfile
+  return res
+    .json({ status: "ok", message: "This endpoint has not implemented yet" })
+    .status(200);
+};
+
+export const getLeaderboard = async (req: Request, res: Response) => {
+  // TODO: Implement getLeaderboard
+  return res
+    .json({ status: "ok", message: "This endpoint has not implemented yet" })
+    .status(200);
+};
+
+// NOTE: Controllers for optional  endpoints, develop later if have more time
+// export const updateUserProfile = async (req: Request, res: Response) => {
+//   // TODO: Implement updateUserProfile
+//   return res
+//     .json({ status: "ok", message: "This endpoint has not implemented yet" })
+//     .status(200);
+// };
+
+// export const deleteAccount = async (req: Request, res: Response) => {
+//   // TODO: Implement deleteAccount
+//   return res
+//     .json({ status: "ok", message: "This endpoint has not implemented yet" })
+//     .status(200);
+// };
