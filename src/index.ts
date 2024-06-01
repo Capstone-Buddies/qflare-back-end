@@ -3,7 +3,6 @@ import express from "express";
 import dotenv from "dotenv";
 import loggingMiddleware from "./middlewares/logging.middleware";
 import userRouter from "./routes/user.route";
-import authRouter from "./routes/auth.route";
 
 dotenv.config();
 
@@ -24,7 +23,6 @@ qFlareApp.get("/", (_req, res) => {
 });
 
 qFlareApp.use("/users", userRouter);
-qFlareApp.use("/auth", authRouter);
 
 qFlareApp.listen(port, () => {
   console.log("\x1b[34m", `[Express] listening at http://localhost:${port}`);
