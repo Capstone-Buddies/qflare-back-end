@@ -28,8 +28,6 @@ const authMiddleware = async (
         process.env.JWT_SECRET!
       ) as JwtPayload;
 
-      console.log(decodedToken)
-
       // Cek apakah pengguna ada di database berdasarkan id pengguna yang terdapat dalam token
       const user = await db
         .select()
