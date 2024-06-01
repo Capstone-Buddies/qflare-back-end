@@ -27,4 +27,3 @@ qFlareApp.use("/users", userRouter);
 qFlareApp.listen(port, () => {
   console.log("\x1b[34m", `[Express] listening at http://localhost:${port}`);
 });
-

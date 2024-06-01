@@ -56,6 +56,10 @@ This API documentation provides information on how to interact with the Qflare A
   - body:
     - `status`: `success`
     - `message`: `User registered successfully`
+    - `data`: 
+      - `username` (string): The username of the user
+      - `email` (string): The email of the user
+      
 
 #### 2.1.2. Login
 
