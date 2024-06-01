@@ -29,7 +29,9 @@
   },
   "homepage": "https://github.com/Xrayya/express-playground#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.12",
     "drizzle-kit": "^0.21.4",
     "nodemon": "^3.1.1",
