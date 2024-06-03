@@ -8,8 +8,8 @@ const userRouter = express.Router();
 userRouter.delete("/delete", authMiddleware, (_req, res) =>
   res.json({ message: "Hello, user!" })
 );
-userRouter.get("/my-profile", getUserProfile);
-userRouter.get("/leaderboard", getLeaderboard);
+userRouter.get("/my-profile", authMiddleware, getUserProfile);
+userRouter.get("/leaderboard", authMiddleware, getLeaderboard);
 
 // NOTE: Optional endpoints, develop later if have more time
 // userRouter.put("/my-profile", (_req, res) => res.json({ message: "Hello, user!" }));
