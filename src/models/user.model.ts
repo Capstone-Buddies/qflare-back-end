@@ -1,5 +1,4 @@
 import { UserType } from "@/drizzle/schema";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
 import { users } from "../drizzle/schema";
@@ -37,11 +36,6 @@ export const getUserByEmail = async (email: string) => {
     .from(users)
     .where(eq(users.email, email.toLowerCase()))
     .limit(1);
-};
-
-export const generateToken = (userId: string, email: string) => {
-  const jwtSecret = process.env.JWT_SECRET as string;
-  return jwt.sign({ userId, email }, jwtSecret, { expiresIn: "1d" });
 };
 
 export const getUsers = async (): Promise<UserType[]> => {
