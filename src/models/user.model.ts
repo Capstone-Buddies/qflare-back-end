@@ -1,15 +1,14 @@
-import { UserType } from "@/drizzle/schema";
 import bcrypt from "bcryptjs";
-import { nanoid } from "nanoid";
-import { users } from "../drizzle/schema";
-import { db } from "../drizzle/db";
 import { eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
+import { db } from "../drizzle/db";
+import { users } from "../drizzle/schema";
 
 export const findUserByEmail = async (email: string) => {
   return await db.select().from(users).where(eq(users.email, email));
 };
 
-export const createUserInDB = async (
+export const addUser = async (
   username: string,
   email: string,
   password: string
@@ -36,14 +35,4 @@ export const getUserByEmail = async (email: string) => {
     .from(users)
     .where(eq(users.email, email.toLowerCase()))
     .limit(1);
-};
-
-export const getUsers = async (): Promise<UserType[]> => {
-  // TODO: Implement getUsers
-  return [];
-};
-
-export const getUserById = async (userId: string): Promise<UserType | null> => {
-  // TODO: Implement getUserById
-  return null;
 };
