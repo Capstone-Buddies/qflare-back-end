@@ -56,10 +56,45 @@ This API documentation provides information on how to interact with the Qflare A
   - body:
     - `status`: `success`
     - `message`: `User registered successfully`
-    - `data`: 
+    - `data`:
       - `username` (string): The username of the user
       - `email` (string): The email of the user
-      
+- **Description**: Register a new user with missing username
+- **Request Body**:
+  - `username` (string): The user does not input a username
+  - `email` (string): The email of the user
+  - `password` (string): The password of the user
+- **Response (Bad Request)**:
+  - status code: `400 Bad Request`
+  - body:
+    - `message`: `Username is required`
+- **Description**: Register a new user with missing email
+- **Request Body**:
+  - `username` (string): The username of the user
+  - `email` (String): The user does not input a email
+  - `password` (string): The password of the user
+- **Response (Bad Request)**:
+  - status code: `400 Bad Request`
+  - body:
+    - `message`: `Email is required`
+- **Description**: Register a new user with missing password
+- **Request Body**:
+  - `username` (string): The username of the user
+  - `email` (String): The email of the user
+  - `password` (string): The user does not input a password
+- **Response (Bad Request)**:
+  - status code: `400 Bad Request`
+  - body:
+    - `message`: `Password is required`
+- **Description**: Register a new user with invalid email
+- **Request Body**:
+  - `username` (string): The username of the user
+  - `email` (String): The email has been used
+  - `password` (string): The password of the user
+- **Response (Forbidden)**
+  - status code: `403 Forbidden`
+  - body:
+    - `message`: `Email is already in use`
 
 #### 2.1.2. Login
 
@@ -75,6 +110,15 @@ This API documentation provides information on how to interact with the Qflare A
     - `status`: `success`
     - `message`: `User logged in successfully`
     - `token` (string): The JWT token
+- **Description**: Login with invalid email or password
+- **Request Body**:
+  - `email` (string): The email of the user
+  - `password` (string): The password of the user
+- **Response**:
+  - status code: `403 Forbidden`
+  - body:
+    - `message`: `Invalid email or password`
+  
 
 ### 3 Error Codes
 
