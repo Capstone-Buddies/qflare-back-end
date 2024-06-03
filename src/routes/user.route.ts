@@ -4,8 +4,6 @@ import express from "express";
 
 const userRouter = express.Router();
 
-userRouter.get("/", (_req, res) => res.json({ message: "Hello, user!" }));
-
 // TODO: this is dummy route, remove it later
 userRouter.delete("/delete", authMiddleware, (_req, res) =>
   res.json({ message: "Hello, user!" })
