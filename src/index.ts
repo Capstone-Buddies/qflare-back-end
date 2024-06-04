@@ -28,6 +28,13 @@ qFlareApp.use("/auth", authRouter);
 qFlareApp.use("/users", userRouter);
 qFlareApp.use("/quizzes", quizRouter);
 
+qFlareApp.use("*", (_req, res) => {
+  res.status(404).json({
+    status: "fail",
+    message: "Route not found",
+  });
+});
+
 qFlareApp.listen(port, () => {
   console.log("\x1b[34m", `[Express] listening at http://localhost:${port}`);
 });
