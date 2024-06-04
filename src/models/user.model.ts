@@ -1,15 +1,14 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { nanoid } from "nanoid";
-import { users } from "../drizzle/schema";
-import { db } from "../drizzle/db";
 import { eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
+import { db } from "../drizzle/db";
+import { users } from "../drizzle/schema";
 
-const findUserByEmail = async (email: string) => {
+export const findUserByEmail = async (email: string) => {
   return await db.select().from(users).where(eq(users.email, email));
 };
 
-const createUserInDB = async (
+export const addUser = async (
   username: string,
   email: string,
   password: string
@@ -27,7 +26,7 @@ const createUserInDB = async (
   return { userId, email };
 };
 
-const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string) => {
   return await db
     .select({
       id: users.id,
@@ -37,10 +36,3 @@ const getUserByEmail = async (email: string) => {
     .where(eq(users.email, email.toLowerCase()))
     .limit(1);
 };
-
-const generateToken = (userId: string, email: string) => {
-  const jwtSecret = process.env.JWT_SECRET as string;
-  return jwt.sign({ userId, email }, jwtSecret, { expiresIn: "1d" });
-};
-
-export { findUserByEmail, createUserInDB, getUserByEmail, generateToken };

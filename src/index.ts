@@ -3,6 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import loggingMiddleware from "./middlewares/logging.middleware";
 import userRouter from "./routes/user.route";
+import quizRouter from "./routes/quiz.route";
+import authRouter from "./routes/auth.route";
 
 dotenv.config();
 
@@ -22,7 +24,16 @@ qFlareApp.get("/", (_req, res) => {
     .status(200);
 });
 
+qFlareApp.use("/auth", authRouter);
 qFlareApp.use("/users", userRouter);
+qFlareApp.use("/quizzes", quizRouter);
+
+qFlareApp.use("*", (_req, res) => {
+  res.status(404).json({
+    status: "fail",
+    message: "Route not found",
+  });
+});
 
 qFlareApp.listen(port, () => {
   console.log("\x1b[34m", `[Express] listening at http://localhost:${port}`);
