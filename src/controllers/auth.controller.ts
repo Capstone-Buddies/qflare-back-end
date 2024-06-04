@@ -4,7 +4,6 @@ import { findUserByEmail, addUser, getUserByEmail } from "@/models/user.model";
 import { generateToken } from "@/models/auth.model";
 import { LoginRequest, RegisterRequest } from "@/zod/schemas/authRoute";
 
-
 namespace status {
   export const success: string = "success";
   export const fail: string = "fail";
@@ -83,6 +82,6 @@ export const login = async (req: LoginRequest, res: Response) => {
 export const logout = async (_req: Request, res: Response) => {
   // TODO: Implement logout
   return res
-    .json({ status: "ok", message: "This endpoint has not implemented yet" })
-    .status(200);
+    .status(200)
+    .json({status: status.fail, message: "This endpoint has not implemented yet" });
 };
