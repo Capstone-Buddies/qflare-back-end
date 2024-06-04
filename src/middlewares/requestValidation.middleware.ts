@@ -1,4 +1,4 @@
-import { ExpressRequestSchema } from "@/zod/schemas/expressRequest";
+import { ExpressRequestSchema, TypedRequest } from "@/zod/schemas/expressRequest";
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { ZodIssue, ZodObject, ZodRawShape, z } from "zod";
 
@@ -8,14 +8,9 @@ export const requestValidationMiddleware = <
   TParams extends ZodRawShape = {},
 >(
   schema: ExpressRequestSchema<TBody, TQueryParams, TParams>,
-) : RequestHandler<TParams, any, TBody, TQueryParams> => {
+)  => {
   return (
-    req: Request<
-      z.infer<ZodObject<TParams>>,
-      any,
-      z.infer<ZodObject<TBody>>,
-      z.infer<ZodObject<TQueryParams>>
-    >,
+    req: TypedRequest<typeof schema>,
     res: Response,
     next: NextFunction,
   ) => {
