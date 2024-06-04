@@ -39,10 +39,29 @@ This API documentation provides information on how to interact with the Qflare A
       - `data`:
         - `username` (string): The username of the user
         - `email` (string): The email of the user
+  - **Bad Request: Missing username**:
+    - **Description**: Register a new user with missing username on request body
+    - **Status Code**: `400 Bad Request`
+    - **Response Body**:
+      - `status`: `fail`
+      - `message`: `Username is required`
+  - **Bad Request: Missing email**:
+    - **Description**: Register a new user with missing email on request body
+    - **Status Code**: `400 Bad Request`
+    - **Response Body**:
+      - `status`: `fail`
+      - `message`: `Email is required`
+  - **Bad Request: Missing password**:
+    - **Description**: Register a new user with missing password
+    - **Status Code**: `400 Bad Request`
+    - **Response Body**:
+      - `status`: `fail`
+      - `message`: `Password is required`
   - **Conflict: Email already used**
     - **Description**: Register a new user with email that is already in use
-    - **Status Code**: `403 Forbidden`
+    - **Status Code**: `409 Conflict`
     - **Response Body**:
+      - `status`: `fail`
       - `message`: `Email is already in use`
 
 #### 2.1.2. Login
@@ -63,8 +82,9 @@ This API documentation provides information on how to interact with the Qflare A
       - `token` (string): The JWT token
   - **Unauthorized: Wrong credential**:
     - **Description**: Login with invalid email or password
-    - **Status Code**: `403 Forbidden`
+    - **Status Code**: `401 Unauthorized`
     - **Response Body**:
+      - `status`: `fail`
       - `message`: `Invalid email or password`
 
 ## 3. Other Error
