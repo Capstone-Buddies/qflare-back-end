@@ -1,6 +1,6 @@
 import { ExpressRequestSchema, TypedRequest } from "@/zod/schemas/expressRequest";
-import { NextFunction, Request, RequestHandler, Response } from "express";
-import { ZodIssue, ZodObject, ZodRawShape, z } from "zod";
+import { NextFunction, Response } from "express";
+import { ZodIssue, ZodRawShape } from "zod";
 
 export const requestValidationMiddleware = <
   TBody extends ZodRawShape = {},
