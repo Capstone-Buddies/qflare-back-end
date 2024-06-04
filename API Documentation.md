@@ -9,30 +9,6 @@
       - [2.1.1. Register](#211-register)
       - [2.1.2. Login](#212-login)
       - [2.1.3. Logout](#213-logout)
-      - [2.1.4. Get User](#214-get-user)
-      - [2.1.5. Update User](#215-update-user)
-      - [2.1.6. Delete User](#216-delete-user)
-    - [2.2. Post](#22-post)
-      - [2.2.1. Create Post](#221-create-post)
-      - [2.2.2. Get All Posts](#222-get-all-posts)
-      - [2.2.3. Get Post](#223-get-post)
-      - [2.2.4. Update Post](#224-update-post)
-      - [2.2.5. Delete Post](#225-delete-post)
-    - [2.3. Comment](#23-comment)
-      - [2.3.1. Create Comment](#231-create-comment)
-      - [2.3.2. Get All Comments](#232-get-all-comments)
-      - [2.3.3. Get Comment](#233-get-comment)
-      - [2.3.4. Update Comment](#234-update-comment)
-      - [2.3.5. Delete Comment](#235-delete-comment)
-    - [2.4. Like](#24-like)
-      - [2.4.1. Like Post](#241-like-post)
-      - [2.4.2. Unlike Post](#242-unlike-post)
-      - [2.4.3. Like Comment](#243-like-comment)
-      - [2.4.4. Unlike Comment](#244-unlike-comment)
-  - [3. Error Codes](#3-error-codes)
-    - [3.1. 400 Bad Request](#31-400-bad-request)
-    - [3.2. 401 Unauthorized](#32-401-unauthorized)
-    - [3.3. 403 Forbidden](#33-403-forbidden)
 
 ## 1. Introduction
 
@@ -51,15 +27,36 @@ This API documentation provides information on how to interact with the Qflare A
   - `username` (string): The username of the user
   - `email` (string): The email of the user
   - `password` (string): The password of the user
-- **Response (Success)**:
-  - status code: `201 Created`
-  - body:
-    - `status`: `success`
-    - `message`: `User registered successfully`
-    - `data`: 
-      - `username` (string): The username of the user
-      - `email` (string): The email of the user
-      
+- **Response**:
+  - **Success**:
+    - **Description**: Valid new user registration
+    - **Status Code**: `201 Created`
+    - **Response Body**:
+      - `status`: `success`
+      - `message`: `User registered successfully`
+      - `data`:
+        - `username` (string): The username of the user
+        - `email` (string): The email of the user
+  - **Bad Request: Missing username**:
+    - **Description**: Register a new user with missing username on request body
+    - **Status Code**: `400 Bad Request`
+    - **Response Body**:
+      - `message`: `Username is required`
+  - **Bad Request: Missing email**:
+    - **Description**: Register a new user with missing email on request body
+    - **Status Code**: `400 Bad Request`
+    - **Response Body**:
+      - `message`: `Email is required`
+  - **Bad Request: Missing password**:
+    - **Description**: Register a new user with missing password
+    - **Status Code**: `400 Bad Request`
+    - **Response Body**:
+      - `message`: `Password is required`
+  - **Conflict: Email already used**
+    - **Description**: Register a new user with email that is already in use
+    - **Status Code**: `403 Forbidden`
+    - **Response Body**:
+      - `message`: `Email is already in use`
 
 #### 2.1.2. Login
 
@@ -70,34 +67,15 @@ This API documentation provides information on how to interact with the Qflare A
   - `email` (string): The email of the user
   - `password` (string): The password of the user
 - **Response**:
-  - status code: `200 OK`
-  - body:
-    - `status`: `success`
-    - `message`: `User logged in successfully`
-    - `token` (string): The JWT token
-
-### 3 Error Codes
-
-#### 3.1. 400 Bad Request
-
-- **Description**: The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.
-- **Response**:
-  - status code: `400 Bad Request`
-  - body:
-    - `message` (string): The error message
-
-#### 3.2. 401 Unauthorized
-
-- **Description**: The request has not been applied because it lacks valid authentication credentials for the target resource.
-- **Response**:
-  - status code: `401 Unauthorized`
-  - body:
-    - `message` (string): The error message
-
-#### 3.3. 403 Forbidden
-
-- **Description**: The server understood the request but refuses to authorize it.
-- **Response**:
-  - status code: `403 Forbidden`
-  - body:
-    - `message` (string): The error message
+  - **Success**:
+    - **Description**: Valid login
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      - `status`: `success`
+      - `message`: `User logged in successfully`
+      - `token` (string): The JWT token
+  - **Unauthorized: Wrong credential**:
+    - **Description**: Login with invalid email or password
+    - **Status Code**: `403 Forbidden`
+    - **Response Body**:
+      - `message`: `Invalid email or password`
