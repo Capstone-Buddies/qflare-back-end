@@ -32,7 +32,7 @@ export const quizCategories = mysqlTable("quiz_category", {
   quizCategory: varchar("quiz_category", { length: 256 }).notNull(),
 });
 
-export const QuizCategoryType = typeof quizCategories.$inferSelect;
+export type QuizCategoryType = typeof quizCategories.$inferSelect;
 
 export const quizQuestions = mysqlTable("quiz_question", {
   id: int("id").primaryKey().autoincrement(),
@@ -47,7 +47,7 @@ export const quizQuestions = mysqlTable("quiz_question", {
   answer: tinyint("answer").notNull(),
 });
 
-export const QuizQuestionType = typeof quizQuestions.$inferSelect;
+export type QuizQuestionType = typeof quizQuestions.$inferSelect;
 
 export const quizHistories = mysqlTable("quiz_history", {
   id: int("id").primaryKey().autoincrement(),
@@ -62,7 +62,7 @@ export const quizHistories = mysqlTable("quiz_history", {
     .notNull(),
 });
 
-export const QuizHistoryType = typeof quizHistories.$inferSelect;
+export type QuizHistoryType = typeof quizHistories.$inferSelect;
 
 export const answerHistories = mysqlTable(
   "answer_history",
@@ -84,4 +84,4 @@ export const answerHistories = mysqlTable(
   },
 );
 
-export const AnswerHistoryType = typeof answerHistories.$inferSelect;
+export type AnswerHistoryType = typeof answerHistories.$inferSelect;
