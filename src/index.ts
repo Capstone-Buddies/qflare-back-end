@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import loggingMiddleware from "./middlewares/logging.middleware";
 import userRouter from "./routes/user.route";
 import quizRouter from "./routes/quiz.route";
+import authRouter from "./routes/auth.route";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ qFlareApp.get("/", (_req, res) => {
     .status(200);
 });
 
+qFlareApp.use("/auth", authRouter);
 qFlareApp.use("/users", userRouter);
 qFlareApp.use("/quizzes", quizRouter);
 
