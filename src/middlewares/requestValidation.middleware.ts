@@ -1,6 +1,9 @@
-import { ExpressRequestSchema, TypedRequest } from "@/zod/schemas/expressRequest";
+import {
+  ExpressRequestSchema,
+  TypedRequest,
+} from "@/zod/schemas/expressRequest";
 import { NextFunction, Response } from "express";
-import { ZodIssue, ZodRawShape } from "zod";
+import { ZodRawShape } from "zod";
 
 export const requestValidationMiddleware = <
   TBody extends ZodRawShape = {},
@@ -8,7 +11,7 @@ export const requestValidationMiddleware = <
   TParams extends ZodRawShape = {},
 >(
   schema: ExpressRequestSchema<TBody, TQueryParams, TParams>,
-)  => {
+) => {
   return (
     req: TypedRequest<typeof schema>,
     res: Response,
@@ -17,7 +20,10 @@ export const requestValidationMiddleware = <
     const { body, params, queryParams } = schema;
 
     let valid: boolean = true;
-    let traces: { message: string; errors: ZodIssue[] }[] = [];
+    let traces: {
+      message: string;
+      errors: { message: string; property: string }[];
+    }[] = [];
 
     if (body) {
       const result = body?.safeParse(req.body);
@@ -27,7 +33,12 @@ export const requestValidationMiddleware = <
         valid = false;
         traces.push({
           message: "Invalid request body",
-          errors: result.error.errors,
+          errors: result.error.errors.map(({ path, message }) => {
+            return {
+              property: path.join("."),
+              message,
+            };
+          }),
         });
       }
     }
@@ -40,7 +51,12 @@ export const requestValidationMiddleware = <
         valid = false;
         traces.push({
           message: "Invalid request params",
-          errors: result.error.errors,
+          errors: result.error.errors.map(({ path, message }) => {
+            return {
+              property: path.join("."),
+              message,
+            };
+          }),
         });
       }
     }
@@ -53,7 +69,12 @@ export const requestValidationMiddleware = <
         valid = false;
         traces.push({
           message: "Invalid request query params",
-          errors: result.error.errors,
+          errors: result.error.errors.map(({ path, message }) => {
+            return {
+              property: path.join("."),
+              message,
+            };
+          }),
         });
       }
     }
