@@ -27,3 +27,14 @@ export const registerSchema = new ExpressRequestSchema({
 });
 
 export type RegisterRequest = TypedRequest<typeof registerSchema>;
+
+export const loginSchema = new ExpressRequestSchema({
+  paramsSchema: z.object({}),
+  bodySchema: z.object({
+    email: string().email(),
+    password: string(),
+  }),
+  queryParamsSchema: z.object({}),
+});
+
+export type LoginRequest = TypedRequest<typeof loginSchema>;
