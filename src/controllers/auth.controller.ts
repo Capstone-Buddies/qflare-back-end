@@ -2,28 +2,12 @@ import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { findUserByEmail, addUser, getUserByEmail } from "@/models/user.model";
 import { generateToken } from "@/models/auth.model";
+import { LoginRequest, RegisterRequest } from "@/zod/schemas/authRoute";
 
 const success: string = "success";
 
-//Register User
-export const register = async (req: Request, res: Response) => {
-  const {
-    username,
-    email,
-    password,
-  }: { username: string; email: string; password: string } = req.body;
-
-  if (!username) {
-    return res.status(400).json({ message: "Username is required" });
-  }
-
-  if (!email) {
-    return res.status(400).json({ message: "Email is required" });
-  }
-
-  if (!password) {
-    return res.status(400).json({ message: "Password is required" });
-  }
+export const register = async (req: RegisterRequest, res: Response) => {
+  const { username, email, password } = req.body;
 
   try {
     const existingUser = await findUserByEmail(email);
@@ -51,14 +35,8 @@ export const register = async (req: Request, res: Response) => {
 };
 
 //Login User
-export const login = async (req: Request, res: Response) => {
-  const { email, password }: { email: string; password: string } = req.body;
-
-  if (!email || !password) {
-    return res.status(403).json({
-      message: "Email and password are required",
-    });
-  }
+export const login = async (req: LoginRequest, res: Response) => {
+  const { email, password }= req.body;
 
   try {
     const result = await getUserByEmail(email);
@@ -83,7 +61,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(200).json({
       status: success,
       data: { email, token },
-      message: "User Logged in successfully",
+      message: "User logged in successfully",
     });
   } catch (error) {
     console.error("Error logging in:", error);
