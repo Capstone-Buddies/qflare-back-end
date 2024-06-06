@@ -1,13 +1,9 @@
+import { status } from "@/constants";
+import { generateToken } from "@/models/auth.model";
+import { addUser, findUserByEmail, getUserByEmail } from "@/models/user.model";
+import { LoginRequest, RegisterRequest } from "@/zod/schemas/authRoute";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
-import { findUserByEmail, addUser, getUserByEmail } from "@/models/user.model";
-import { generateToken } from "@/models/auth.model";
-import { LoginRequest, RegisterRequest } from "@/zod/schemas/authRoute";
-
-namespace status {
-  export const success: string = "success";
-  export const fail: string = "fail";
-}
 
 export const register = async (req: RegisterRequest, res: Response) => {
   const { username, email, password } = req.body;
