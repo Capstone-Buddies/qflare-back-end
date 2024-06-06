@@ -39,30 +39,18 @@ This API documentation provides information on how to interact with the Qflare A
       - `data`:
         - `username` (string): The username of the user
         - `email` (string): The email of the user
-  - **Bad Request: Missing username**:
-    - **Description**: Register a new user with missing username on request body
-    - **Status Code**: `400 Bad Request`
-    - **Response Body**:
-      - `status`: `fail`
-      - `message`: `Username is required`
-  - **Bad Request: Missing email**:
-    - **Description**: Register a new user with missing email on request body
-    - **Status Code**: `400 Bad Request`
-    - **Response Body**:
-      - `status`: `fail`
-      - `message`: `Email is required`
-  - **Bad Request: Missing password**:
-    - **Description**: Register a new user with missing password
-    - **Status Code**: `400 Bad Request`
-    - **Response Body**:
-      - `status`: `fail`
-      - `message`: `Password is required`
   - **Conflict: Email already used**
     - **Description**: Register a new user with email that is already in use
     - **Status Code**: `409 Conflict`
     - **Response Body**:
       - `status`: `fail`
       - `message`: `Email is already in use`
+  - **Internal Server Error: Unable to register user**
+    - **Description**: Unable to register user to the due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      - `status`: `fail`
+      - `message`: `Unable to register user`
 
 #### 2.1.2. Login
 
@@ -86,6 +74,12 @@ This API documentation provides information on how to interact with the Qflare A
     - **Response Body**:
       - `status`: `fail`
       - `message`: `Email or password is wrong`
+  - **Internal Server Error: Unable to log user in**
+    - **Description**: Unable to log user in due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      - `status`: `fail`
+      - `message`: `Unable to log user in`
 
 ## 3. Other Error
 
