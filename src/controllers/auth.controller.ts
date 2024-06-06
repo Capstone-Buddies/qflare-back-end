@@ -32,7 +32,7 @@ export const register = async (req: RegisterRequest, res: Response) => {
     console.error("Error creating user:", error);
     return res
       .status(500)
-      .json({ status: status.fail, message: "Unable to add user" });
+      .json({ status: status.fail, message: "Unable to register user" });
   }
 };
 
