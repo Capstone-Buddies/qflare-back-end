@@ -85,7 +85,7 @@ This API documentation provides information on how to interact with the Qflare A
     - **Status Code**: `401 Unauthorized`
     - **Response Body**:
       - `status`: `fail`
-      - `message`: `Invalid email or password`
+      - `message`: `Email or password is wrong`
 
 ## 3. Other Error
 
