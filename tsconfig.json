@@ -16,7 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "./dummy_data/**/*"],
   "exclude": ["./src/drizzle/migration.ts"]
 }
 
