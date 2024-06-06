@@ -31,7 +31,7 @@ export const register = async (req: RegisterRequest, res: Response) => {
   } catch (error) {
     console.error("Error creating user:", error);
     return res
-      .status(400)
+      .status(500)
       .json({ status: status.fail, message: "Unable to add user" });
   }
 };
@@ -70,8 +70,8 @@ export const login = async (req: LoginRequest, res: Response) => {
   } catch (error) {
     console.error("Error logging in:", error);
     return res
-      .status(400)
-      .json({ status: status.fail, message: "Unable to login" });
+      .status(500)
+      .json({ status: status.fail, message: "Unable to log user in" });
   }
 };
 
