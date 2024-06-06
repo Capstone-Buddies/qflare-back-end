@@ -41,9 +41,16 @@ This API documentation provides information on how to interact with the Qflare A
         - `email` (string): The email of the user
   - **Conflict: Email already used**
     - **Description**: Register a new user with email that is already in use
-    - **Status Code**: `403 Forbidden`
+    - **Status Code**: `409 Conflict`
     - **Response Body**:
+      - `status`: `fail`
       - `message`: `Email is already in use`
+  - **Internal Server Error: Unable to register user**
+    - **Description**: Unable to register user to the due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      - `status`: `fail`
+      - `message`: `Unable to register user`
 
 #### 2.1.2. Login
 
@@ -63,9 +70,16 @@ This API documentation provides information on how to interact with the Qflare A
       - `token` (string): The JWT token
   - **Unauthorized: Wrong credential**:
     - **Description**: Login with invalid email or password
-    - **Status Code**: `403 Forbidden`
+    - **Status Code**: `401 Unauthorized`
     - **Response Body**:
-      - `message`: `Invalid email or password`
+      - `status`: `fail`
+      - `message`: `Email or password is wrong`
+  - **Internal Server Error: Unable to log user in**
+    - **Description**: Unable to log user in due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      - `status`: `fail`
+      - `message`: `Unable to log user in`
 
 ## 3. Other Error
 
