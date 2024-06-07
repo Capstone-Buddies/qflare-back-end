@@ -14,7 +14,8 @@
     "noUnusedLocals": true,
     "noImplicitAny": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "pretty": true,
   },
   "include": ["./src/**/*", "./dummy_data/**/*"],
   "exclude": ["./src/drizzle/migration.ts"]
