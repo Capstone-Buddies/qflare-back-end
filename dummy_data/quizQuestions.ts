@@ -118,16 +118,6 @@ export const quizHistories: Omit<QuizQuestionDummyType, "id">[] = [
   {
     quizCategoryId: 4,
     question:
-      "Saat berenang setiap 4 hari sekali, Bayu berenang setiap 6 hari sekali, dan Dito berenang setiap 9 hari sekali. Apabila pada tanggal 10 Juli 2004 mereka berenang bersama, pada tanggal berapa mereka akan berenang bersama lagi",
-    option1: "15 September 2004",
-    option2: "15  Agustus 2004",
-    option3: "17 September 2004",
-    option4: "17  Agustus 2004",
-    answer: 2,
-  },
-  {
-    quizCategoryId: 4,
-    question:
       "Apabila x adalah luas bujur-sangkar yang panjang sisinya 10 cm dan y adalah luas lingkaran yang garis tengahnya 10 cm. Maka",
     option1: "x > y",
     option2: "x = y",
@@ -233,5 +223,15 @@ export const quizHistories: Omit<QuizQuestionDummyType, "id">[] = [
     option4:
       "Pernyataan 1 SAJA cukup untuk menjawab pertanyaan dan pernyataan 2 SAJA cukup.",
     answer: 1,
+  },
+  {
+    quizCategoryId: 7,
+    question:
+      "Dalam suatu gedung teater di Provinsi Suka-Suka terdapat 11 baris kursi. Baris pertama berisi 10 kursi, baris kedua berisi 15 kursi, baris ketiga berisi 17 kursi, baris keempat berisi 22 kursi, baris ke lima berisi 24 kursi, dan seterusnya mengikuti pola yang sama. Apabila dalam suatu pertunjukan teater hanya terisi setengah dari total kapasitas gedung dan harga tiket pertunjukan adalah Rp30.000,00 per orang, total pendapatan dari pertunjukan tersebut adalah",
+    option1: "Rp9.300.000,00",
+    option2: "RP6.975.000,00",
+    option3: "Rp4.650.000,00",
+    option4: "Rp3.650.000,00",
+    answer: 3,
   },
 ];
