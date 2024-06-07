@@ -25,42 +25,35 @@ export type QuizCategoryDummyType = { id: (typeof validId)[number] } & (
   }
 );
 
-export const quizQuestions: QuizCategoryDummyType[] = [
+export const quizCategoriesDummy: Omit<QuizCategoryDummyType, "id">[] = [
   {
-    id: 1,
     quizType: "TPS",
     quizCategory: "PU",
   },
   {
-    id: 2,
     quizType: "TPS",
     quizCategory: "PPU",
   },
   {
-    id: 3,
     quizType: "TPS",
     quizCategory: "PBM",
   },
   {
-    id: 4,
     quizType: "TPS",
     quizCategory: "PK",
   },
   {
-    id: 5,
     quizType: "Literasi",
     quizCategory: "BI",
   },
   {
-    id: 6,
     quizType: "Literasi",
     quizCategory: "EN",
   },
   {
-    id: 7,
     quizType: "Literasi",
     quizCategory: "PM",
   },
 ];
 
-quizQuestions;
+quizCategoriesDummy;
