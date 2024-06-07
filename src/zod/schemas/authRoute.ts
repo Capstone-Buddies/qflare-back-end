@@ -4,7 +4,7 @@ import { ExpressRequestSchema, TypedRequest } from "./expressRequest";
 export const registerSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),
   bodySchema: z.object({
-    username: string().min(1),
+    username: string(),
     email: string().email(),
     password: string()
       .min(6)
