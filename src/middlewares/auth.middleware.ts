@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 
 dotenv.config();
 
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
   user?: JwtPayload;
 }
 
