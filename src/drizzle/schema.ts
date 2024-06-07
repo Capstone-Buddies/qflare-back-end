@@ -73,7 +73,7 @@ export const answerHistories = mysqlTable(
     questionId: int("question_id")
       .references(() => quizQuestions.id)
       .notNull(),
-    user_answer: tinyint("user_answer").notNull(),
+    userAnswer: tinyint("user_answer").notNull(),
     correctness: tinyint("correctness").notNull(),
     duration: timestamp("duration").notNull(),
   },
