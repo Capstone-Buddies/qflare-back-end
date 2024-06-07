@@ -9,9 +9,13 @@ const userRouter = express.Router();
 userRouter.use(authMiddleware);
 
 // TODO: this is dummy route, remove it later
-userRouter.delete("/delete", (_req: AuthenticatedRequest, res) => {
-  res.json({ message: "Hello, user!" });
-});
+userRouter.delete(
+  "/delete",
+  authMiddleware,
+  (_req: AuthenticatedRequest, res) => {
+    res.json({ message: "Hello, user!" });
+  }
+);
 userRouter.get("/my-profile", getUserProfile);
 userRouter.get("/leaderboard", getLeaderboard);
 
