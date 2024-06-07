@@ -1,4 +1,6 @@
-import authMiddleware from "@/middlewares/auth.middleware";
+import authMiddleware, {
+  AuthenticatedRequest,
+} from "@/middlewares/auth.middleware";
 import { getLeaderboard, getUserProfile } from "@/controllers/user.controller";
 import express from "express";
 
@@ -7,9 +9,10 @@ const userRouter = express.Router();
 userRouter.use(authMiddleware);
 
 // TODO: this is dummy route, remove it later
-userRouter.delete("/delete", (_req, res) =>
-  res.json({ message: "Hello, user!" }),
-);
+userRouter.delete("/delete", (_req: AuthenticatedRequest, res) => {
+  console.log(_req.user);
+  res.json({ message: "Hello, user!" });
+});
 userRouter.get("/my-profile", getUserProfile);
 userRouter.get("/leaderboard", getLeaderboard);
 

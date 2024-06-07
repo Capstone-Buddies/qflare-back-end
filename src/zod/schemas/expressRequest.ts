@@ -1,3 +1,4 @@
+import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import { Request } from "express";
 import { z, ZodObject, ZodRawShape, ZodTypeAny } from "zod";
 
@@ -48,4 +49,4 @@ export type TypedRequest<T extends ExpressRequestSchema> = Request<
   any,
   z.infer<T["body"]>,
   z.infer<T["queryParams"]>
->;
+> & AuthenticatedRequest;
