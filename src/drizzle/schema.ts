@@ -16,8 +16,8 @@ export const users = mysqlTable(
     username: varchar("username", { length: 256 }).notNull(),
     email: varchar("email", { length: 256 }).notNull(),
     password: varchar("password", { length: 256 }).notNull(),
-    level: int("level").notNull().default(1),
-    exp: int("exp").notNull().default(0),
+    level: int("level").default(1),
+    exp: int("exp").default(0),
   },
   (users) => ({
     nameIdx: index("email_idx").on(users.email),
@@ -42,7 +42,7 @@ export type QuestionCategoryType = typeof questionCategories.$inferSelect;
 
 export const quizQuestions = mysqlTable("quiz_question", {
   id: int("id").primaryKey().autoincrement(),
-  questionCategories: int("question_category_id")
+  questionCategoryId: int("question_category_id")
     .references(() => questionCategories.id)
     .notNull(),
   question: text("question").notNull(),
