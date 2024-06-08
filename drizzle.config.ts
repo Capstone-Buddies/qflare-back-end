@@ -4,9 +4,9 @@ export default defineConfig({
   out: "./drizzle_out",
   dialect: "mysql",
   dbCredentials: {
-    host: process.env.DRIZZLE_DB_HOST!,
-    user: process.env.DRIZZLE_DB_USER!,
-    password: process.env.DRIZZLE_DB_PASSWORD!,
-    database: process.env.DRIZZLE_DB_NAME!,
+    host: process.env.MYSQL_DB_HOST!,
+    user: process.env.MYSQL_DB_USER!,
+    password: process.env.MYSQL_DB_PASSWORD!,
+    database: process.env.MYSQL_DB_NAME!,
   },
 });
