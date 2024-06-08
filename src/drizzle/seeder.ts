@@ -1,10 +1,11 @@
+import bcrypt from "bcryptjs";
 import { db } from "./db";
-import { answerHistoriesDummy } from "./dummy_data/answerHistories";
-import { questionCategoriesDummy } from "./dummy_data/questionCategories";
-import { quizCategoriesDummy } from "./dummy_data/quizCategories";
-import { quizHistoriesDummy } from "./dummy_data/quizHistories";
-import { quizQuestionsDummy } from "./dummy_data/quizQuestions";
-import { usersDummy } from "./dummy_data/users";
+import { answerHistoriesDummy } from "./dummyData/answerHistories";
+import { questionCategoriesDummy } from "./dummyData/questionCategories";
+import { quizCategoriesDummy } from "./dummyData/quizCategories";
+import { quizHistoriesDummy } from "./dummyData/quizHistories";
+import { quizQuestionsDummy } from "./dummyData/quizQuestions";
+import { usersDummy } from "./dummyData/users";
 import {
   answerHistories,
   questionCategories,
@@ -13,7 +14,6 @@ import {
   quizQuestions,
   users,
 } from "./schema";
-import bcrypt from "bcryptjs";
 
 async function seedUsers() {
   for (const user of usersDummy) {
