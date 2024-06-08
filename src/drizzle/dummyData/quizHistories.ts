@@ -1,6 +1,6 @@
-import { usersDummy } from "./users";
-import { QuizCategoryDummyType } from "./quizCategories";
 import { QuizHistoryType } from "../schema";
+import { QuizCategoryDummyType } from "./quizCategories";
+import { usersDummy } from "./users";
 
 const dummyId = [1, 2] as const;
 

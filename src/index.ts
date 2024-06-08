@@ -1,10 +1,10 @@
 import cors from "cors";
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import loggingMiddleware from "./middlewares/logging.middleware";
-import userRouter from "./routes/user.route";
-import quizRouter from "./routes/quiz.route";
 import authRouter from "./routes/auth.route";
+import quizRouter from "./routes/quiz.route";
+import userRouter from "./routes/user.route";
 
 dotenv.config();
 

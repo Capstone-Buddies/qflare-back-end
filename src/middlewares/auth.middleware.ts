@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
-import { users } from "../drizzle/schema";
-import { db } from "../drizzle/db";
 import { eq } from "drizzle-orm";
+import { NextFunction, Request, Response } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { db } from "../drizzle/db";
+import { users } from "../drizzle/schema";
 
 dotenv.config();
 

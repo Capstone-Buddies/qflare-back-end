@@ -1,13 +1,12 @@
 import {
   index,
-  mysqlTable,
-  varchar,
   int,
-  timestamp,
-  text,
-  tinyint,
+  mysqlTable,
   primaryKey,
-  time,
+  text,
+  timestamp,
+  tinyint,
+  varchar
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable(
