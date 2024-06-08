@@ -7,6 +7,7 @@ import {
   text,
   tinyint,
   primaryKey,
+  time,
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable(
@@ -81,7 +82,7 @@ export const answerHistories = mysqlTable(
       .notNull(),
     userAnswer: tinyint("user_answer").notNull(),
     correctness: tinyint("correctness").notNull(),
-    duration: timestamp("duration").notNull(),
+    duration: int("duration").notNull(),
   },
   (table) => {
     return {
