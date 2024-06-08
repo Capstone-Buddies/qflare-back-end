@@ -1,6 +1,6 @@
-import { QuizHistoryType } from "@/drizzle/schema";
 import { usersDummy } from "./users";
 import { QuizCategoryDummyType } from "./quizCategories";
+import { QuizHistoryType } from "../schema";
 
 const dummyId = [1, 2] as const;
 

@@ -1,4 +1,4 @@
-import { QuizQuestionType } from "@/drizzle/schema";
+import { QuizQuestionType } from "../schema";
 import { QuestionCategoryDummyType } from "./questionCategories";
 
 const dummyId = [

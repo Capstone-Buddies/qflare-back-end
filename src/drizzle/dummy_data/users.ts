@@ -1,5 +1,5 @@
-import { UserType } from "@/drizzle/schema";
 import { nanoid } from "nanoid";
+import { UserType } from "../schema";
 
 export type UserDummyType = UserType;
 

@@ -1,4 +1,4 @@
-import { AnswerHistoryType } from "@/drizzle/schema";
+import { AnswerHistoryType } from "../schema";
 import { QuizHistoryDummyType } from "./quizHistories";
 import { QuizQuestionDummyType } from "./quizQuestions";
 
