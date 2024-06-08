@@ -28,16 +28,22 @@ export type UserType = typeof users.$inferSelect;
 
 export const quizCategories = mysqlTable("quiz_category", {
   id: int("id").primaryKey().autoincrement(),
-  quizType: varchar("quiz_type", { length: 256 }).notNull(),
   quizCategory: varchar("quiz_category", { length: 256 }).notNull(),
 });
 
 export type QuizCategoryType = typeof quizCategories.$inferSelect;
 
+export const questionCategories = mysqlTable("question_category", {
+  id: int("id").primaryKey().autoincrement(),
+  questionCategory: varchar("question_category", { length: 256 }).notNull(),
+});
+
+export type QuestionCategoryType = typeof questionCategories.$inferSelect;
+
 export const quizQuestions = mysqlTable("quiz_question", {
   id: int("id").primaryKey().autoincrement(),
-  quizCategoryId: int("quiz_category_id")
-    .references(() => quizCategories.id)
+  questionCategories: int("question_category_id")
+    .references(() => questionCategories.id)
     .notNull(),
   question: text("question").notNull(),
   option1: text("option1").notNull(),
