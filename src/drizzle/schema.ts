@@ -1,12 +1,12 @@
 import {
   index,
-  mysqlTable,
-  varchar,
   int,
-  timestamp,
-  text,
-  tinyint,
+  mysqlTable,
   primaryKey,
+  text,
+  timestamp,
+  tinyint,
+  varchar
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable(
@@ -16,8 +16,8 @@ export const users = mysqlTable(
     username: varchar("username", { length: 256 }).notNull(),
     email: varchar("email", { length: 256 }).notNull(),
     password: varchar("password", { length: 256 }).notNull(),
-    level: int("level").notNull().default(1),
-    exp: int("exp").notNull().default(0),
+    level: int("level").default(1),
+    exp: int("exp").default(0),
   },
   (users) => ({
     nameIdx: index("email_idx").on(users.email),
@@ -28,16 +28,22 @@ export type UserType = typeof users.$inferSelect;
 
 export const quizCategories = mysqlTable("quiz_category", {
   id: int("id").primaryKey().autoincrement(),
-  quizType: varchar("quiz_type", { length: 256 }).notNull(),
   quizCategory: varchar("quiz_category", { length: 256 }).notNull(),
 });
 
 export type QuizCategoryType = typeof quizCategories.$inferSelect;
 
+export const questionCategories = mysqlTable("question_category", {
+  id: int("id").primaryKey().autoincrement(),
+  questionCategory: varchar("question_category", { length: 256 }).notNull(),
+});
+
+export type QuestionCategoryType = typeof questionCategories.$inferSelect;
+
 export const quizQuestions = mysqlTable("quiz_question", {
   id: int("id").primaryKey().autoincrement(),
-  quizCategoryId: int("quiz_category_id")
-    .references(() => quizCategories.id)
+  questionCategoryId: int("question_category_id")
+    .references(() => questionCategories.id)
     .notNull(),
   question: text("question").notNull(),
   option1: text("option1").notNull(),
@@ -73,9 +79,9 @@ export const answerHistories = mysqlTable(
     questionId: int("question_id")
       .references(() => quizQuestions.id)
       .notNull(),
-    user_answer: tinyint("user_answer").notNull(),
+    userAnswer: tinyint("user_answer").notNull(),
     correctness: tinyint("correctness").notNull(),
-    duration: timestamp("duration").notNull(),
+    duration: int("duration").notNull(),
   },
   (table) => {
     return {

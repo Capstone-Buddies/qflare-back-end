@@ -10,7 +10,9 @@
     "build:bun": "bunx tsc",
     "migration:generate": "drizzle-kit generate",
     "migrate:bun": "bun src/drizzle/migration.ts",
-    "migrate:node": "npx tsx src/drizzle/migration.ts"
+    "migrate:node": "npx tsx src/drizzle/migration.ts",
+    "seed:bun": "bun src/drizzle/seeder.ts",
+    "seed:node": "npx tsx src/drizzle/seeder.ts"
   },
   "repository": {
     "type": "git",
