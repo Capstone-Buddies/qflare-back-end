@@ -1,12 +1,12 @@
 import { QuizHistoryType } from "@/drizzle/schema";
-import { QuizCategoryDummyType } from "./quizCategories";
+import { QuestionCategoryDummyType } from "./questionCategories";
 import { usersDummy } from "./users";
 
 const dummyId = Array.from({ length: 2 }, (_, index) => index + 1);
 
 export type QuizHistoryDummyType = QuizHistoryType & {
   id: (typeof dummyId)[number];
-  quizCategoryId: QuizCategoryDummyType["id"];
+  quizCategoryId: QuestionCategoryDummyType["id"];
 };
 
 export const quizHistories: Omit<QuizHistoryDummyType, "id">[] = [
