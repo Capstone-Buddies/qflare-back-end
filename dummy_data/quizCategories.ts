@@ -1,12 +1,11 @@
-import { QuizCategoryType } from "@/drizzle/schema";
-
-const validId: QuizCategoryType["id"][] = [1, 2, 3, 4, 5, 6, 7];
-const validQuizCategory: QuizCategoryType["quizCategory"][] = [
+const validId = [1, 2] as const;
+const validQuizCategory = [
   "TPS",
-  "Literasi"
-];
+  "Literasi",
+] as const;
 
-export type QuizCategoryDummyType = { id: (typeof validId)[number] } & {
+export type QuizCategoryDummyType = {
+  id: (typeof validId)[number];
   quizCategory: (typeof validQuizCategory)[number];
 };
 
@@ -14,5 +13,3 @@ export const quizCategoriesDummy: Omit<QuizCategoryDummyType, "id">[] =
   validQuizCategory.map((category) => {
     return { quizCategory: category };
   });
-
-export default quizCategoriesDummy;

@@ -5,6 +5,7 @@ import { QuizQuestionDummyType } from "./quizQuestions";
 export type AnswerHistoryDummyType = AnswerHistoryType & {
   quizHistoryId: QuizHistoryDummyType["id"];
   questionId: QuizQuestionDummyType["id"];
+  userAnswer: QuizQuestionDummyType["answer"];
 };
 
 export const answerHistoriesDummy: AnswerHistoryDummyType[] = [
