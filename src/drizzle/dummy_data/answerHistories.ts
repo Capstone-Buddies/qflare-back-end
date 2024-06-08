@@ -14,76 +14,77 @@ export const answerHistoriesDummy: AnswerHistoryDummyType[] = [
     questionId: 1,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 7, 18, 78),
+    // duration: new Date(0, 0, 0, 0, 7, 18, 78),
+    duration: 34
   },
   {
     quizHistoryId: 1,
     questionId: 2,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 5, 13, 34),
+    duration: 5
   },
   {
     quizHistoryId: 1,
     questionId: 3,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 3, 45, 12),
+    duration: 23
   },
   {
     quizHistoryId: 1,
     questionId: 4,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 2, 11, 45),
+    duration: 18
   },
   {
     quizHistoryId: 1,
     questionId: 5,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 4, 23, 56),
+    duration: 22
   },
   {
     quizHistoryId: 1,
     questionId: 6,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 11, 45, 23),
+    duration: 9
   },
   {
     quizHistoryId: 1,
     questionId: 7,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 9, 23, 45),
+    duration: 24
   },
   {
     quizHistoryId: 1,
     questionId: 8,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 10, 12, 34),
+    duration: 30
   },
   {
     quizHistoryId: 1,
     questionId: 9,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 2, 7, 18),
+    duration: 40
   },
   {
     quizHistoryId: 1,
     questionId: 10,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 4, 3, 45),
+    duration: 59
   },
   {
     quizHistoryId: 2,
     questionId: 11,
     userAnswer: 2,
     correctness: 0,
-    duration: new Date(0, 0, 0, 0, 2, 3, 45),
+    duration: 22
   },
 ];
