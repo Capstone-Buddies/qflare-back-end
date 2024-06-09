@@ -121,7 +121,7 @@ This API documentation provides information on how to interact with the Qflare A
 
 #### 2.1.3. Logout
 
-- **Method**: `POST`
+- **Method**: `GET`
 - **URL**: `/api/users/logout`
 - **Description**: Logout a user
 - **Response**:
