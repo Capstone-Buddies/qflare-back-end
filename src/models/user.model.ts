@@ -23,7 +23,6 @@ export const addUser = async (
     level: 1,
     exp: 0,
   });
-  return { userId, email };
 };
 
 export const getUserByEmail = async (email: string) => {

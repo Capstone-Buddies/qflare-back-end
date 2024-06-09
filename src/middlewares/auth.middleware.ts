@@ -4,11 +4,12 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { db } from "../drizzle/db";
 import { users } from "../drizzle/schema";
+import { UserType } from "../drizzle/schema";
 
 dotenv.config();
 
 export interface AuthenticatedRequest extends Request {
-  user?: JwtPayload;
+  user?: Omit<UserType, "password" | "token">;
 }
 
 const authMiddleware = async (
@@ -26,22 +27,31 @@ const authMiddleware = async (
       const decodedToken = jwt.verify(
         token,
         process.env.JWT_SECRET!
-      ) as JwtPayload;
+      ) as JwtPayload & { userId: string };
 
       // Cek apakah pengguna ada di database berdasarkan id pengguna yang terdapat dalam token
-      const user = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, decodedToken.userId));
+      const user = (
+        await db
+          .select()
+          .from(users)
+          .where(eq(users.id, decodedToken.userId))
+          .limit(1)
+      )[0];
 
-      if (!user) {
-        return res.status(401).json({
+      if (!user || user.token === null) {
+        return res.status(403).json({
           status: "fail",
-          message: "User not found",
+          message: "Invalid token",
         });
       }
 
-      req.user = user as JwtPayload; 
+      req.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        level: user.level,
+        exp: user.exp,
+      };
 
       next();
     } catch (error) {

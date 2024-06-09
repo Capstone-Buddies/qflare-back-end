@@ -20,7 +20,7 @@ export const registerSchema = new ExpressRequestSchema({
         {
           message:
             "Password must contain at least one uppercase letter, one lowercase letter, and one number",
-        },
+        }
       ),
   }),
   queryParamsSchema: z.object({}),
@@ -38,3 +38,11 @@ export const loginSchema = new ExpressRequestSchema({
 });
 
 export type LoginRequest = TypedRequest<typeof loginSchema>;
+
+export const logoutSchema = new ExpressRequestSchema({
+  paramsSchema: z.object({}),
+  bodySchema: z.object({}),
+  queryParamsSchema: z.object({}),
+});
+
+export type LogoutRequest = TypedRequest<typeof logoutSchema>;

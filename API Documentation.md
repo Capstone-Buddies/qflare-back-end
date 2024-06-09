@@ -26,60 +26,125 @@ This API documentation provides information on how to interact with the Qflare A
 - **URL**: `/api/users/register`
 - **Description**: Register a new user
 - **Request Body**:
-  - `username` (string): The username of the user
-  - `email` (string): The email of the user
-  - `password` (string): The password of the user
+  ```json
+  {
+    "username": "john_doe",
+    "email": "john@example.com",
+    "password": "password123"
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid new user registration
     - **Status Code**: `201 Created`
     - **Response Body**:
-      - `status`: `success`
-      - `message`: `User registered successfully`
-      - `data`:
-        - `username` (string): The username of the user
-        - `email` (string): The email of the user
+      ```json
+      {
+        "status": "success",
+        "message": "User registered successfully",
+        "data": {
+          "username": "john_doe",
+          "email": "john@example.com"
+        }
+      }
+      ```
   - **Conflict: Email already used**
     - **Description**: Register a new user with email that is already in use
     - **Status Code**: `409 Conflict`
     - **Response Body**:
-      - `status`: `fail`
-      - `message`: `Email is already in use`
+      ```json
+      {
+        "status": "fail",
+        "message": "Email is already in use"
+      }
+      ```
   - **Internal Server Error: Unable to register user**
     - **Description**: Unable to register user to the due to many reasons
     - **Status Code**: `500 Internal Server Error`
     - **Response Body**:
-      - `status`: `fail`
-      - `message`: `Unable to register user`
+      ```json
+      {
+        "status": "fail",
+        "message": "Unable to register user"
+      }
+      ```
 
 #### 2.1.2. Login
 
 - **Method**: `POST`
 - **URL**: `/api/users/login`
 - **Description**: Login a user
-- **Request Body**:
-  - `email` (string): The email of the user
-  - `password` (string): The password of the user
+- **Request Body**:  
+  example:
+  ```json
+  {
+    "email": "john@example.com",
+    "password": "password123"
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid login
     - **Status Code**: `200 OK`
-    - **Response Body**:
-      - `status`: `success`
-      - `message`: `User logged in successfully`
-      - `token` (string): The JWT token
+    - **Response Body**:  
+      example:
+      ```json
+      {
+        "status": "success",
+        "data": {
+          "email": "john@example.com",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        },
+        "message": "User logged in successfully"
+      }
+      ```
   - **Unauthorized: Wrong credential**:
     - **Description**: Login with invalid email or password
     - **Status Code**: `401 Unauthorized`
     - **Response Body**:
-      - `status`: `fail`
-      - `message`: `Email or password is wrong`
+      ```json
+      {
+        "status": "fail",
+        "message": "Email or password is wrong"
+      }
+      ```
   - **Internal Server Error: Unable to log user in**
     - **Description**: Unable to log user in due to many reasons
     - **Status Code**: `500 Internal Server Error`
     - **Response Body**:
-      - `status`: `fail`
-      - `message`: `Unable to log user in`
+      ```json
+      {
+        "status": "fail",
+        "message": "Unable to log user in"
+      }
+      ```
+
+#### 2.1.3. Logout
+
+- **Method**: `GET`
+- **URL**: `/api/users/logout`
+- **Description**: Logout a user
+- **Response**:
+  - **Success**:
+    - **Description**: Valid logout
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "message": "User logged out successfully"
+      }
+      ```
+  - **Internal Server Error: Unable to log user in**
+    - **Description**: Unable to log user out due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "Unable to log user out"
+      }
+      ```
 
 ## 3. Other Error
 

@@ -18,10 +18,11 @@ export const users = mysqlTable(
     password: varchar("password", { length: 256 }).notNull(),
     level: int("level").default(1),
     exp: int("exp").default(0),
+    token: text("token"),
   },
   (users) => ({
     nameIdx: index("email_idx").on(users.email),
-  }),
+  })
 );
 
 export type UserType = typeof users.$inferSelect;
@@ -87,7 +88,7 @@ export const answerHistories = mysqlTable(
     return {
       pk: primaryKey({ columns: [table.quizHistoryId, table.questionId] }),
     };
-  },
+  }
 );
 
 export type AnswerHistoryType = typeof answerHistories.$inferSelect;

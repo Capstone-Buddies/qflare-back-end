@@ -1,10 +1,12 @@
 import { status } from "@/constants";
-import { generateToken } from "@/models/auth.model";
+import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
+import { generateToken, invalidateToken } from "@/models/auth.model";
 import { addUser, findUserByEmail, getUserByEmail } from "@/models/user.model";
 import { LoginRequest, RegisterRequest } from "@/zod/schemas/authRoute";
 import bcrypt from "bcryptjs";
-import { Request, Response } from "express";
+import { Response } from "express";
 
+// Register User
 export const register = async (req: RegisterRequest, res: Response) => {
   const { username, email, password } = req.body;
 
@@ -18,10 +20,7 @@ export const register = async (req: RegisterRequest, res: Response) => {
       });
     }
 
-    const { userId } = await addUser(username, email, password);
-    const token = generateToken(userId, email);
-
-    res.cookie("token", token, {});
+    await addUser(username, email, password);
 
     return res.status(201).json({
       status: status.success,
@@ -36,7 +35,7 @@ export const register = async (req: RegisterRequest, res: Response) => {
   }
 };
 
-//Login User
+// Login User
 export const login = async (req: LoginRequest, res: Response) => {
   const { email, password } = req.body;
 
@@ -60,7 +59,7 @@ export const login = async (req: LoginRequest, res: Response) => {
       });
     }
 
-    const token = generateToken(user.id, email);
+    const token = await generateToken(user.id, email); // Generate token
 
     return res.status(200).json({
       status: status.success,
@@ -75,9 +74,23 @@ export const login = async (req: LoginRequest, res: Response) => {
   }
 };
 
-export const logout = async (_req: Request, res: Response) => {
-  // TODO: Implement logout
-  return res
-    .status(200)
-    .json({status: status.fail, message: "This endpoint has not implemented yet" });
+// Logout User
+export const logout = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const userId = req.user?.id;
+
+    if (userId) {
+      await invalidateToken(userId);
+      return res.status(200).json({
+        status: status.success,
+        message: "User logged out successfully",
+      });
+    }
+  } catch (error) {
+    console.error("Error logging out:", error);
+    return res.status(500).json({
+      status: status.fail,
+      message: "Unable to log user out",
+    });
+  }
 };
