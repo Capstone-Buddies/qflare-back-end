@@ -4,11 +4,12 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { db } from "../drizzle/db";
 import { users } from "../drizzle/schema";
+import { UserType } from "../drizzle/schema";
 
 dotenv.config();
 
 export interface AuthenticatedRequest extends Request {
-  user?: JwtPayload & { userId?: string };
+  user?: Omit<UserType, "password" | "token">;
 }
 
 const authMiddleware = async (
@@ -37,16 +38,20 @@ const authMiddleware = async (
           .limit(1)
       )[0];
 
-      console.log(user)
-
-      if (user.token === null) {
+      if (!user || user.token === null) {
         return res.status(403).json({
           status: "fail",
           message: "Invalid token",
         });
       }
 
-      req.user = { ...decodedToken, userId: user.id };
+      req.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        level: user.level,
+        exp: user.exp,
+      };
 
       next();
     } catch (error) {

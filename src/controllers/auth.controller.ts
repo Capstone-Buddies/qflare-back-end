@@ -77,7 +77,7 @@ export const login = async (req: LoginRequest, res: Response) => {
 // Logout User
 export const logout = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const userId = req.user?.userId;
+    const userId = req.user?.id;
 
     if (userId) {
       await invalidateToken(userId);
