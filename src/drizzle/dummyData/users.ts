@@ -3,7 +3,7 @@ import { UserType } from "../schema";
 
 export type UserDummyType = UserType;
 
-export const usersDummy: Omit<UserDummyType, "level" | "exp">[] = [
+export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
   {
     id: nanoid(32),
     username: "admin",
