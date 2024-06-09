@@ -16,7 +16,7 @@ authRouter.post(
   register
 );
 authRouter.post("/login", requestValidationMiddleware(loginSchema), login);
-authRouter.post(
+authRouter.get(
   "/logout",
   authMiddleware,
   requestValidationMiddleware(logoutSchema),
