@@ -24,9 +24,9 @@ qFlareApp.get("/", (_req, res) => {
     .status(200);
 });
 
-qFlareApp.use("/auth", authRouter);
-qFlareApp.use("/users", userRouter);
-qFlareApp.use("/quizzes", quizRouter);
+qFlareApp.use("/api/auth", authRouter);
+qFlareApp.use("/api/users", userRouter);
+qFlareApp.use("/api/quizzes", quizRouter);
 
 qFlareApp.use("*", (_req, res) => {
   res.status(404).json({
