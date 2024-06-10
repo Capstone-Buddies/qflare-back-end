@@ -74,8 +74,7 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `POST`
 - **URL**: `/api/users/login`
 - **Description**: Login a user
-- **Request Body**:  
-  example:
+- **Request Body**:
   ```json
   {
     "email": "john@example.com",
@@ -86,8 +85,7 @@ This API documentation provides information on how to interact with the Qflare A
   - **Success**:
     - **Description**: Valid login
     - **Status Code**: `200 OK`
-    - **Response Body**:  
-      example:
+    - **Response Body**:
       ```json
       {
         "status": "success",
@@ -143,6 +141,45 @@ This API documentation provides information on how to interact with the Qflare A
       {
         "status": "fail",
         "message": "Unable to log user out"
+      }
+      ```
+
+### 2.2. Quiz
+
+#### 2.2.1. Quiz Histories
+
+- **Method**: `GET`
+- **URL**: `/api/quizzez/histories`
+- **Description**: Get the quiz histories for the authenticated user
+- **Response**:
+  - **Success**:
+    - **Description**: Valid histories
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "data": {
+          "histories": [
+            {
+              "timestamp": "2024-06-xxxx:xx44:00.000Z",
+              "grade": 90,
+              "level": 1,
+              "quizCategory": "Literasi"
+            }
+          ]
+        },
+        "message": "Successfully retrieved quiz histories"
+      }
+      ```
+  - **Internal Server Error: Unable get Quiz Histories**:
+    - **Description**: Unable to get user Quiz Histories due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while load quiz histories"
       }
       ```
 
