@@ -36,7 +36,7 @@ export const getQuizHistories = async (
       if (histories.length === 0) {
         return res.status(200).json({
           status: status.success,
-          message: "User has no quiz histories.",
+          message: "User has no quiz histories",
         });
       }
 
