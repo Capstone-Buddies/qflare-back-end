@@ -26,7 +26,7 @@ This API documentation provides information on how to interact with the Qflare A
 #### 2.1.1. Register
 
 - **Method**: `POST`
-- **URL**: `/api/users/register`
+- **URL**: `/api/auth/register`
 - **Description**: Register a new user
 - **Request Body**:
   ```json
@@ -75,7 +75,7 @@ This API documentation provides information on how to interact with the Qflare A
 #### 2.1.2. Login
 
 - **Method**: `POST`
-- **URL**: `/api/users/login`
+- **URL**: `/api/auth/login`
 - **Description**: Login a user
 - **Request Body**:
   ```json
@@ -123,7 +123,7 @@ This API documentation provides information on how to interact with the Qflare A
 #### 2.1.3. Logout
 
 - **Method**: `GET`
-- **URL**: `/api/users/logout`
+- **URL**: `/api/auth/logout`
 - **Description**: Logout a user
 - **Response**:
   - **Success**:
@@ -152,7 +152,7 @@ This API documentation provides information on how to interact with the Qflare A
 #### 2.2.1. Quiz Histories
 
 - **Method**: `GET`
-- **URL**: `/api/quizzez/histories`
+- **URL**: `/api/quizzes/histories`
 - **Description**: Get the quiz histories for the authenticated user
 - **Response**:
   - **Success**:
