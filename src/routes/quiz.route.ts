@@ -5,6 +5,8 @@ import {
   getQuizHistories,
 } from "@/controllers/quiz.controller";
 import authMiddleware from "@/middlewares/auth.middleware";
+import { requestValidationMiddleware } from "@/middlewares/requestValidation.middleware";
+import { getQuizAnswersSchema } from "@/zod/schemas/quizRoute";
 import express from "express";
 
 const quizRouter = express.Router();
@@ -13,7 +15,11 @@ quizRouter.use(authMiddleware);
 
 quizRouter.post("/", generateQuiz);
 quizRouter.post("/result", calculateQuiz);
-quizRouter.get("/histories", authMiddleware, getQuizHistories);
-quizRouter.get("/histories/:historyId/answers", getQuizAnswers);
+quizRouter.get("/histories", getQuizHistories);
+quizRouter.get(
+  "/histories/:historyId/answers",
+  requestValidationMiddleware(getQuizAnswersSchema),
+  getQuizAnswers,
+);
 
 export default quizRouter;

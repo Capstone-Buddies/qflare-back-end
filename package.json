@@ -51,7 +51,6 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.8",
     "nanoid": "^5.0.7",
-    "zod": "^3.23.8",
-    "zod-express-middleware": "^1.4.0"
+    "zod": "^3.23.8"
   }
 }

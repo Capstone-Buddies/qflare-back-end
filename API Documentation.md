@@ -3,14 +3,19 @@
 ## Table of Contents
 
 - [API Documentation](#api-documentation)
+
   - [1. Introduction](#1-introduction)
   - [2. API Endpoints](#2-api-endpoints)
+
     - [2.1. Auth](#21-auth)
       - [2.1.1. Register](#211-register)
       - [2.1.2. Login](#212-login)
       - [2.1.3. Logout](#213-logout)
     - [2.2. Quiz](#22-quiz)
-      - [2.1.1. Quiz Histories](#211-quiz-histories)
+      - [2.2.1. Generate Quiz](#221-generate-quiz)
+      - [2.2.2. Calculate Quiz](#222-calculate-quiz)
+      - [2.2.3. Get Quiz Histories](#223-get-quiz-histories)
+      - [2.2.4. Get Quiz Answers](#224-get-quiz-answers)
 
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
@@ -149,7 +154,11 @@ This API documentation provides information on how to interact with the Qflare A
 
 ### 2.2. Quiz
 
-#### 2.2.1. Quiz Histories
+#### 2.2.1. Generate Quiz
+
+#### 2.2.2. Calculate Quiz
+
+#### 2.2.3. Get Quiz Histories
 
 - **Method**: `GET`
 - **URL**: `/api/quizzes/histories`
@@ -165,6 +174,7 @@ This API documentation provides information on how to interact with the Qflare A
         "data": {
           "histories": [
             {
+              "id": "1",
               "timestamp": "2024-06-xxxx:xx44:00.000Z",
               "grade": 90,
               "level": 1,
@@ -174,6 +184,7 @@ This API documentation provides information on how to interact with the Qflare A
         },
         "message": "Successfully retrieved quiz histories"
       }
+      ```
   - **Success: No Quiz Histories**:
     - **Description**: Valid request but no quiz histories found due to user never take any quiz
     - **Status Code**: `200 OK`
@@ -192,6 +203,58 @@ This API documentation provides information on how to interact with the Qflare A
       {
         "status": "fail",
         "message": "An error occurred while load quiz histories"
+      }
+      ```
+
+#### 2.2.4. Get Quiz Answers
+
+- **Method**: `GET`
+- **URL**: `/api/quizzes/answers`
+- **Description**: Get the quiz answers for the authenticated user
+- **Response**:
+  - **Success**:
+    - **Description**: Valid quiz answers
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "data": {
+          "answers": [
+            {
+              "question": "Lawan kata monoton",
+              "option1": "Bergerak-gerak",
+              "option2": "Berulang-ulang ",
+              "option3": "Berubah-ubah",
+              "option4": "Terus menerus",
+              "userAnswer": 2,
+              "duration": 34,
+              "correctness": false
+            },
+            {
+              "question": "Lawan kata monoton",
+              "option1": "Bergerak-gerak",
+              "option2": "Berulang-ulang ",
+              "option3": "Berubah-ubah",
+              "option4": "Terus menerus",
+              "userAnswer": 2,
+              "duration": 34,
+              "correctness": false
+            },
+            // ... more answers until 10
+          ]
+        },
+        "message": "Successfully retrieved quiz answers"
+      }
+      ```
+  - **Internal Server Error: Unable get Quiz Answers**:
+    - **Description**: Unable to get user Quiz Answers due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while load quiz answers"
       }
       ```
 
