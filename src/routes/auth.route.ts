@@ -3,7 +3,6 @@ import authMiddleware from "@/middlewares/auth.middleware";
 import { requestValidationMiddleware } from "@/middlewares/requestValidation.middleware";
 import {
   loginSchema,
-  logoutSchema,
   registerSchema,
 } from "@/zod/schemas/authRoute";
 import express from "express";
@@ -19,7 +18,6 @@ authRouter.post("/login", requestValidationMiddleware(loginSchema), login);
 authRouter.get(
   "/logout",
   authMiddleware,
-  requestValidationMiddleware(logoutSchema),
   logout
 );
 
