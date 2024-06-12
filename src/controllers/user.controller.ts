@@ -1,4 +1,5 @@
 import { status } from "@/constants";
+import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import { getLeaderboardQuery } from "@/models/user.model";
 import { Request, Response } from "express";
 
@@ -12,7 +13,10 @@ export const getUserProfile = async (req: Request, res: Response) => {
     .status(200);
 };
 
-export const getLeaderboard = async (req: Request, res: Response) => {
+export const getLeaderboard = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
   try {
     const leaderboard = await getLeaderboardQuery();
 
