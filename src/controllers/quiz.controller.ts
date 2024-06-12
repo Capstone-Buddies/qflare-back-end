@@ -1,20 +1,46 @@
+// quiz.controller
 import { status } from "@/constants";
+import { db } from "@/drizzle/db";
+import { quizQuestions } from "@/drizzle/schema";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import {
   getQuizHistoryAnswers,
   getUserQuizHistories,
 } from "@/models/quiz.model";
-import { GetQuizAnswersRequest } from "@/zod/schemas/quizRoute";
+import {
+  GenerateQuizRequest,
+  GetQuizAnswersRequest,
+} from "@/zod/schemas/quizRoute";
 import { Request, Response } from "express";
 
-export const generateQuiz = async (req: Request, res: Response) => {
+export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
   // TODO: Implement generateQuiz
-  return res
-    .json({
-      status: status.success,
-      message: "This endpoint has not implemented yet",
-    })
-    .status(200);
+  // TODO: This is dummy implementation, replace it with real implementation later
+
+  try {
+    const { quizCategory } = req.body;
+
+    const questions = await db.select().from(quizQuestions);
+
+    return res
+      .json({
+        status: status.success,
+        message: "Successfully generated quiz",
+        data: {
+          questions: questions.filter(
+            (q) =>
+              (quizCategory === "TPS" && q.id <= 10) ||
+              (quizCategory === "Literasi" && q.id > 10),
+          ),
+        },
+      })
+      .status(200);
+  } catch (error) {
+    return res.status(500).json({
+      status: status.fail,
+      message: "An error occurred while generating quiz",
+    });
+  }
 };
 
 export const calculateQuiz = async (req: Request, res: Response) => {
