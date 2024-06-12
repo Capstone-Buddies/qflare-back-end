@@ -8,7 +8,7 @@ import { Response } from "express";
 
 // Register User
 export const register = async (req: RegisterRequest, res: Response) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, schoolOrigin } = req.body;
 
   try {
     const existingUser = await findUserByEmail(email);
@@ -20,7 +20,7 @@ export const register = async (req: RegisterRequest, res: Response) => {
       });
     }
 
-    await addUser(username, email, password);
+    await addUser(username, email, password, schoolOrigin);
 
     return res.status(201).json({
       status: status.success,
