@@ -20,10 +20,11 @@ export const users = mysqlTable(
     exp: int("exp").default(0),
     token: text("token"),
     schoolOrigin: varchar("school_origin", { length: 256 }).notNull(),
+    profileImgUrl: varchar("profile_img_url", { length: 256 }),
   },
   (users) => ({
     nameIdx: index("email_idx").on(users.email),
-  })
+  }),
 );
 
 export type UserType = typeof users.$inferSelect;
@@ -89,7 +90,7 @@ export const answerHistories = mysqlTable(
     return {
       pk: primaryKey({ columns: [table.quizHistoryId, table.questionId] }),
     };
-  }
+  },
 );
 
 export type AnswerHistoryType = typeof answerHistories.$inferSelect;

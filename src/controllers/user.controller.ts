@@ -6,13 +6,13 @@ export const getUserProfile = async (
   req: AuthenticatedRequest,
   res: Response,
 ) => {
-  const { username, email, level, exp, schoolOrigin } = req.user!;
+  const { username, email, level, exp, schoolOrigin, profileImgUrl } = req.user!;
 
   return res
     .json({
       status: status.success,
       message: "Successfully retrieved user profile",
-      data: { username, email, schoolOrigin, level, exp },
+      data: { username, email, schoolOrigin, level, exp, profileImgUrl },
     })
     .status(200);
 };
