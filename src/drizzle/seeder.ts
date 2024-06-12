@@ -23,6 +23,7 @@ async function seedUsers() {
       username: user.username,
       email: user.email,
       password: hashedPassword,
+      schoolOrigin: user.schoolOrigin,
     });
   }
 }
