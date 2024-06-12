@@ -6,7 +6,7 @@ import {
   text,
   timestamp,
   tinyint,
-  varchar
+  varchar,
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable(
@@ -19,6 +19,7 @@ export const users = mysqlTable(
     level: int("level").default(1),
     exp: int("exp").default(0),
     token: text("token"),
+    schoolOrigin: varchar("school_origin", { length: 256 }).notNull(),
   },
   (users) => ({
     nameIdx: index("email_idx").on(users.email),

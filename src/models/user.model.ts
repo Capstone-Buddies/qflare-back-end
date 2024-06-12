@@ -11,7 +11,8 @@ export const findUserByEmail = async (email: string) => {
 export const addUser = async (
   username: string,
   email: string,
-  password: string
+  password: string,
+  schoolOrigin: string
 ) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   const userId = nanoid(32);
@@ -22,6 +23,7 @@ export const addUser = async (
     password: hashedPassword,
     level: 1,
     exp: 0,
+    schoolOrigin,
   });
 };
 

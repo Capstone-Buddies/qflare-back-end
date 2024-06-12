@@ -51,6 +51,7 @@ const authMiddleware = async (
         email: user.email,
         level: user.level,
         exp: user.exp,
+        schoolOrigin: user.schoolOrigin,
       };
 
       next();

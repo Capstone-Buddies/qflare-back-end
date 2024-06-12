@@ -38,7 +38,8 @@ This API documentation provides information on how to interact with the Qflare A
   {
     "username": "john_doe",
     "email": "john@example.com",
-    "password": "password123"
+    "password": "password123",
+    "schoolOrigin": "SMA 1 MAKASSAR"
   }
   ```
 - **Response**:
@@ -240,7 +241,7 @@ This API documentation provides information on how to interact with the Qflare A
               "userAnswer": 2,
               "duration": 34,
               "correctness": false
-            },
+            }
             // ... more answers until 10
           ]
         },
@@ -283,6 +284,10 @@ This API documentation provides information on how to interact with the Qflare A
         {
           "property": "password",
           "message": "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+        },
+        {
+          "property": "schoolOrigin",
+          "message": "School origin must be in uppercase letters"
         }
       ]
     }
