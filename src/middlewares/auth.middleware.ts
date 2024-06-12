@@ -52,6 +52,7 @@ const authMiddleware = async (
         level: user.level,
         exp: user.exp,
         schoolOrigin: user.schoolOrigin,
+        profileImgUrl: user.profileImgUrl,
       };
 
       next();
