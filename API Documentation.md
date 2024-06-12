@@ -281,7 +281,8 @@ This API documentation provides information on how to interact with the Qflare A
           "email": "john@example.com",
           "schoolOrigin": "SMA 1 MAKASSAR",
           "level": 3,
-          "exp": 239
+          "exp": 239,
+          "profileImgUrl": "https://example.com/profile.jpg"
         },
         "message": "Successfully retrieved user profile"
       }
