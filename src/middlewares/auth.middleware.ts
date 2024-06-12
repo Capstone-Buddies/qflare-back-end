@@ -8,14 +8,19 @@ import { UserType } from "../drizzle/schema";
 
 dotenv.config();
 
-export interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest<
+  TParams = any,
+  TRes = any,
+  TBody = any,
+  TQueryParams = any,
+> extends Request<TParams, TRes, TBody, TQueryParams> {
   user?: Omit<UserType, "password" | "token">;
 }
 
 const authMiddleware = async (
   req: AuthenticatedRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const authHeader = req.headers.authorization;
 
@@ -26,7 +31,7 @@ const authMiddleware = async (
       // Verifikasi token
       const decodedToken = jwt.verify(
         token,
-        process.env.JWT_SECRET!
+        process.env.JWT_SECRET!,
       ) as JwtPayload & { userId: string };
 
       // Cek apakah pengguna ada di database berdasarkan id pengguna yang terdapat dalam token

@@ -1,5 +1,5 @@
 import { string, z } from "zod";
-import { ExpressRequestSchema, TypedRequest } from "./expressRequest";
+import { AuthenticatedTypedRequest, ExpressRequestSchema, TypedRequest } from "./expressRequest";
 
 export const registerSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),
@@ -43,13 +43,3 @@ export const loginSchema = new ExpressRequestSchema({
   }),
   queryParamsSchema: z.object({}),
 });
-
-export type LoginRequest = TypedRequest<typeof loginSchema>;
-
-export const logoutSchema = new ExpressRequestSchema({
-  paramsSchema: z.object({}),
-  bodySchema: z.object({}),
-  queryParamsSchema: z.object({}),
-});
-
-export type LogoutRequest = TypedRequest<typeof logoutSchema>;

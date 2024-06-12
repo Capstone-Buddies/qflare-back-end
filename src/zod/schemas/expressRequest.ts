@@ -49,4 +49,12 @@ export type TypedRequest<T extends ExpressRequestSchema> = Request<
   any,
   z.infer<T["body"]>,
   z.infer<T["queryParams"]>
-> & AuthenticatedRequest;
+>;
+
+export type AuthenticatedTypedRequest<T extends ExpressRequestSchema> =
+  AuthenticatedRequest<
+    z.infer<T["params"]>,
+    any,
+    z.infer<T["body"]>,
+    z.infer<T["queryParams"]>
+  >;
