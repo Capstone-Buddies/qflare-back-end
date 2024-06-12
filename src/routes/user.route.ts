@@ -17,7 +17,7 @@ userRouter.delete(
   }
 );
 userRouter.get("/my-profile", getUserProfile);
-userRouter.get("/leaderboard", getLeaderboard);
+userRouter.get("/leaderboard", authMiddleware, getLeaderboard);
 
 // NOTE: Optional endpoints, develop later if have more time
 // userRouter.put("/my-profile", (_req, res) => res.json({ message: "Hello, user!" }));
