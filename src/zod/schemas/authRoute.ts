@@ -4,9 +4,16 @@ import { ExpressRequestSchema, TypedRequest } from "./expressRequest";
 export const registerSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),
   bodySchema: z.object({
-    username: string(),
-    email: string().email(),
-    password: string()
+    username: z.string(),
+    email: z.string().email(),
+    schoolOrigin: z
+      .string()
+      // School origin must be in uppercase letters
+      .refine((schoolOrigin) => schoolOrigin === schoolOrigin.toUpperCase(), {
+        message: "School origin must be in uppercase letters",
+      }),
+    password: z
+      .string()
       .min(6)
       .refine(
         // Password must contain at least one uppercase letter, one lowercase letter, and one number
