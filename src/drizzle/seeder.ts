@@ -24,6 +24,7 @@ async function seedUsers() {
       email: user.email,
       password: hashedPassword,
       schoolOrigin: user.schoolOrigin,
+      profileImgUrl: user.profileImgUrl,
     });
   }
 }
