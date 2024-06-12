@@ -10,6 +10,8 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     email: "admin@qflare.org",
     schoolOrigin: "SMA Negeri Dummy 1",
     password: "Admin01",
+    profileImgUrl:
+      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
   },
   {
     id: nanoid(32),
@@ -17,6 +19,8 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     email: "bambang@gmail.com",
     schoolOrigin: "SMA DummyData 2",
     password: "bambangP20",
+    profileImgUrl:
+      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
   },
   {
     id: nanoid(32),
@@ -24,6 +28,8 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     email: "clair@mistic.com",
     schoolOrigin: "SMA Dummy 88",
     password: "Clairvoyance0",
+    profileImgUrl:
+      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
   },
   {
     id: nanoid(32),
@@ -31,6 +37,8 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     email: "voyance@mistic.com",
     schoolOrigin: "MAN 1 Dummy",
     password: "clairVoyance1",
+    profileImgUrl:
+      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
   },
   {
     id: nanoid(32),
@@ -38,5 +46,7 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     email: "testing@qflare.org",
     schoolOrigin: "MA 1 Dummy",
     password: "MenyalaAbangkuh99",
+    profileImgUrl:
+      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
   },
 ];
