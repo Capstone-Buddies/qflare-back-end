@@ -16,8 +16,8 @@
       - [2.2.2. Calculate Quiz](#222-calculate-quiz)
       - [2.2.3. Get Quiz Histories](#223-get-quiz-histories)
       - [2.2.4. Get Quiz Answers](#224-get-quiz-answers)
-    - [2.3. User](#23-user)
-      - [2.3.1. Get User Profile](#231-get-user-profile)
+    - [2.3. Users](#23-users)
+      - [2.3.1. Get Users Leaderboard](#231-get-users-leaderboard)
 
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
@@ -261,30 +261,69 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
-## 2.3. User
+### 2.3. Users
 
-### 2.3.1. Get User Profile
+#### 2.3.1. Get Users Leaderboard
 
 - **Method**: `GET`
-- **URL**: `/api/users/my-profile`
-- **Description**: Get the profile of the authenticated user
+- **URL**: `/api/users/leaderboard`
+- **Description**: Get the leaderbord based on exp users
 - **Response**:
+
   - **Success**:
-    - **Description**: Valid user profile
+
+    - **Description**: Valid leaderboard
     - **Status Code**: `200 OK`
     - **Response Body**:
       ```json
       {
         "status": "success",
         "data": {
-          "username": "john_doe",
-          "email": "john@example.com",
-          "schoolOrigin": "SMA 1 MAKASSAR",
-          "level": 3,
-          "exp": 239,
-          "profileImgUrl": "https://example.com/profile.jpg"
+          "leaderboard": [
+            {
+              "username": "clair",
+              "level": 10,
+              "exp": 0,
+              "profileImgUrl": "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png"
+            },
+            {
+              "username": "admin",
+              "level": 1,
+              "exp": 0,
+              "profileImgUrl": "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png"
+            },
+            {
+              "username": "bambang",
+              "level": 1,
+              "exp": 0,
+              "profileImgUrl": "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png"
+            },
+            {
+              "username": "bismillah",
+              "level": 1,
+              "exp": 0,
+              "profileImgUrl": "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png"
+            },
+            {
+              "username": "Voyance",
+              "level": 1,
+              "exp": 0,
+              "profileImgUrl": "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png"
+            }
+          ]
         },
-        "message": "Successfully retrieved user profile"
+        "message": "Leaderboard fetched successfully"
+      }
+      ```
+
+  - **Internal Server Error: Unable to get Leaderboard**:
+    - **Description**: Unable to get leaderboard due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while load Leaderboard"
       }
       ```
 
