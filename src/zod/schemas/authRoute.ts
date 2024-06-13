@@ -43,3 +43,5 @@ export const loginSchema = new ExpressRequestSchema({
   }),
   queryParamsSchema: z.object({}),
 });
+
+export type LoginRequest = TypedRequest<typeof loginSchema>;
