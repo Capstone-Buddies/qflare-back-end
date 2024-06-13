@@ -1,14 +1,10 @@
 // quiz.controller
 import { status } from "@/constants";
 import { db } from "@/drizzle/db";
-import {
-  answerHistories,
-  quizQuestions
-} from "@/drizzle/schema";
+import { answerHistories, quizQuestions } from "@/drizzle/schema";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import {
   createQuiz,
-  getCategoryId,
   getQuizHistoryAnswers,
   getUserQuizHistories,
 } from "@/models/quiz.model";
@@ -25,6 +21,7 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
   const { quizCategory } = req.body;
   const { id: userId, level } = req.user!;
   try {
+    // TODO: Implement real quiz selection
     const questions = (await db.select().from(quizQuestions)).filter(
       (q) =>
         (quizCategory === "TPS" && q.id <= 10) ||
@@ -37,6 +34,7 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
       quizCategory,
     );
 
+    // TODO: Implement real answer insertion
     for (const question of questions) {
       await db.insert(answerHistories).values({
         quizHistoryId: quizHistoryId,
@@ -64,7 +62,6 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
       })
       .status(200);
   } catch (error) {
-    console.log(error)
     return res.status(500).json({
       status: status.fail,
       message: "An error occurred while generating quiz",
