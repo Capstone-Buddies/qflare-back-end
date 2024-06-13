@@ -16,7 +16,7 @@
       - [2.2.2. Calculate Quiz](#222-calculate-quiz)
       - [2.2.3. Get Quiz Histories](#223-get-quiz-histories)
       - [2.2.4. Get Quiz Answers](#224-get-quiz-answers)
-    - [2.3. Users](#23-users)
+    - [2.3. User](#23-user)
       - [2.3.1. Get User Profile](#231-get-user-profile)
       - [2.3.2. Get User Leaderboard](#232-get-users-leaderboard)
   - [3. Other Error](#3-other-error)
@@ -261,7 +261,7 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
-### 2.3. Users
+### 2.3. User
 
 #### 2.3.1. Get User Profile
 
@@ -277,7 +277,7 @@ This API documentation provides information on how to interact with the Qflare A
       {
         "status": "success",
         "data": {
-           "username": "john_doe",
+          "username": "john_doe",
           "email": "john@example.com",
           "schoolOrigin": "SMA 1 MAKASSAR",
           "level": 3,
