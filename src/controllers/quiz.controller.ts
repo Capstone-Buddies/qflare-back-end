@@ -1,9 +1,14 @@
 // quiz.controller
 import { status } from "@/constants";
 import { db } from "@/drizzle/db";
-import { quizQuestions } from "@/drizzle/schema";
+import {
+  answerHistories,
+  quizQuestions
+} from "@/drizzle/schema";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import {
+  createQuiz,
+  getCategoryId,
   getQuizHistoryAnswers,
   getUserQuizHistories,
 } from "@/models/quiz.model";
@@ -17,25 +22,49 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
   // TODO: Implement generateQuiz
   // TODO: This is dummy implementation, replace it with real implementation later
 
+  const { quizCategory } = req.body;
+  const { id: userId, level } = req.user!;
   try {
-    const { quizCategory } = req.body;
+    const questions = (await db.select().from(quizQuestions)).filter(
+      (q) =>
+        (quizCategory === "TPS" && q.id <= 10) ||
+        (quizCategory === "Literasi" && q.id > 10),
+    );
 
-    const questions = await db.select().from(quizQuestions);
+    const quizHistoryId = await createQuiz(
+      userId,
+      level === null ? 1 : level,
+      quizCategory,
+    );
+
+    for (const question of questions) {
+      await db.insert(answerHistories).values({
+        quizHistoryId: quizHistoryId,
+        questionId: question.id,
+
+        // Randomize user answer
+        userAnswer: Math.floor(Math.random() * (4 - 1 + 1)) + 1,
+
+        // Randomize correctness
+        correctness: 0,
+
+        // Randomize duration
+        duration: Math.floor(Math.random() * (60 - 1 + 1)) + 1,
+      });
+    }
 
     return res
       .json({
         status: status.success,
         message: "Successfully generated quiz",
         data: {
-          questions: questions.filter(
-            (q) =>
-              (quizCategory === "TPS" && q.id <= 10) ||
-              (quizCategory === "Literasi" && q.id > 10),
-          ),
+          quizId: quizHistoryId,
+          questions,
         },
       })
       .status(200);
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       status: status.fail,
       message: "An error occurred while generating quiz",
