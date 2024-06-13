@@ -1,13 +1,14 @@
 import { status } from "@/constants";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
-import { Request, Response } from "express";
+import { getLeaderboardQuery } from "@/models/user.model";
+import { Response } from "express";
 
 export const getUserProfile = async (
   req: AuthenticatedRequest,
-  res: Response,
+  res: Response
 ) => {
-  const { username, email, level, exp, schoolOrigin, profileImgUrl } = req.user!;
-
+  const { username, email, level, exp, schoolOrigin, profileImgUrl } =
+    req.user!;
   return res
     .json({
       status: status.success,
@@ -17,15 +18,26 @@ export const getUserProfile = async (
     .status(200);
 };
 
-export const getLeaderboard = async (req: Request, res: Response) => {
-  // TODO: Implement getLeaderboard
-  return res
-    .json({
+export const getLeaderboard = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  try {
+    const leaderboard = await getLeaderboardQuery();
+
+    return res.status(200).json({
       status: status.success,
-      message: "This endpoint has not implemented yet",
-    })
-    .status(200);
+      data: { leaderboard },
+      message: "Leaderboard fetched successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: status.fail,
+      message: "An error occurred while load Leaderboard",
+    });
+  }
 };
+
 
 // NOTE: Controllers for optional  endpoints, develop later if have more time
 // export const updateUserProfile = async (req: Request, res: Response) => {

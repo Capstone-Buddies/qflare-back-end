@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { db } from "../drizzle/db";
 import { users } from "../drizzle/schema";
@@ -36,4 +36,16 @@ export const getUserByEmail = async (email: string) => {
     .from(users)
     .where(eq(users.email, email.toLowerCase()))
     .limit(1);
+};
+export const getLeaderboardQuery = async () => {
+  return db
+    .select({
+      username: users.username,
+      level: users.level,
+      exp: users.exp,
+      profileImgUrl: users.profileImgUrl,
+    })
+    .from(users)
+    .orderBy(sql`${users.level} DESC`)
+    .limit(10);
 };
