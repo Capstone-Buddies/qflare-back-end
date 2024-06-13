@@ -3,14 +3,13 @@ import {
   AuthenticatedTypedRequest,
   ExpressRequestSchema,
 } from "./expressRequest";
+import { validCategories } from "@/constants";
 
 export const generateQuizSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),
   bodySchema: z.object({
     quizCategory: z.string().refine(
       (value) => {
-        const validCategories = ["TPS", "Literasi"];
-
         return validCategories.includes(value);
       },
       {
@@ -28,11 +27,26 @@ export type GenerateQuizRequest = AuthenticatedTypedRequest<
 export const calculateQuizSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),
   bodySchema: z.object({
-    quizId: number(),
-    answers: z.array(z.object({ questionId: z.string(), answer: z.string() })),
+    quizId: number().int(),
+    answers: z.array(
+      z.object({
+        questionId: z.number().int(),
+        userAnswer: z
+          .number()
+          .int()
+          .refine((answer) => answer > 0 && answer < 5, {
+            message: "Answer must be between 1 and 4",
+          }),
+        duration: z.number().int(),
+      }),
+    ),
   }),
   queryParamsSchema: z.object({}),
 });
+
+export type CalculateQuizRequest = AuthenticatedTypedRequest<
+  typeof calculateQuizSchema
+>;
 
 export const getQuizAnswersSchema = new ExpressRequestSchema({
   paramsSchema: z.object({
