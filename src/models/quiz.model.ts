@@ -7,6 +7,51 @@ import {
   quizQuestions,
 } from "@/drizzle/schema";
 
+export const getCategoryId = async (quizCategory: string) => {
+  const { categoryId } = (
+    await db
+      .select({ categoryId: quizCategories.id })
+      .from(quizCategories)
+      .where(eq(quizCategories.quizCategory, quizCategory))
+      .limit(1)
+  )[0];
+
+  return categoryId;
+};
+
+export const createQuiz = async (
+  userId: string,
+  level: number,
+  quizCategory: string,
+) => {
+  const timestamp = new Date();
+
+  const categoryId = await getCategoryId(quizCategory);
+
+  await db.insert(quizHistories).values({
+    userId: userId,
+    timestamp: timestamp,
+    grade: 0,
+    level: level,
+    quizCategoryId: categoryId,
+  });
+
+  const { quizHistoryId } = (
+    await db
+      .select({ quizHistoryId: quizHistories.id })
+      .from(quizHistories)
+      .where(
+        and(
+          eq(quizHistories.userId, userId),
+          eq(quizHistories.timestamp, timestamp),
+        ),
+      )
+      .limit(1)
+  )[0];
+
+  return quizHistoryId;
+};
+
 export const getUserQuizHistories = async (userId: string) => {
   try {
     const histories = await db
