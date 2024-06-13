@@ -17,13 +17,8 @@
       - [2.2.3. Get Quiz Histories](#223-get-quiz-histories)
       - [2.2.4. Get Quiz Answers](#224-get-quiz-answers)
     - [2.3. Users](#23-users)
-<<<<<<< HEAD
       - [2.3.1. Get User Profile](#231-get-user-profile)
       - [2.3.2. Get User Leaderboard](#232-get-users-leaderboard)
-=======
-      - [2.3.1. Get Users Leaderboard](#231-get-users-leaderboard)
->>>>>>> 649617d3d1b9de050a5bc9e5f0e4b5e22fb7d9bf
-
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
 
