@@ -159,6 +159,59 @@ This API documentation provides information on how to interact with the Qflare A
 
 #### 2.2.1. Generate Quiz
 
+- **Method**: `POST`
+- **URL**: `/api/quizzes`
+- **Description**: Generate a quiz for the authenticated user
+- **Request Body**:
+  ```json
+  {
+    "quizCategory": "Literasi" // "Literasi" | "TPS"
+  }
+  ```
+- **Response**:
+  - **Success**:
+    - **Description**: Valid quiz generated
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "data": {
+          "quizId": "1",
+          "questions": [
+            {
+              "id": "1",
+              "question": "Lawan kata monoton",
+              "option1": "Bergerak-gerak",
+              "option2": "Berulang-ulang ",
+              "option3": "Berubah-ubah",
+              "option4": "Terus menerus"
+            },
+            {
+              "id": "2",
+              "question": "Lawan kata monoton",
+              "option1": "Bergerak-gerak",
+              "option2": "Berulang-ulang ",
+              "option3": "Berubah-ubah",
+              "option4": "Terus menerus"
+            }
+            // ... more questions until 10
+          ]
+        },
+        "message": "Successfully generated quiz"
+      }
+      ```
+  - **Internal Server Error: Unable to generate Quiz**
+    - **Description**: Unable to generate Quiz due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while generate quiz"
+      }
+      ```
+
 #### 2.2.2. Calculate Quiz
 
 #### 2.2.3. Get Quiz Histories
@@ -209,11 +262,11 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
-#### 2.2.4. Get Quiz Answers
+#### 2.2.4. Get Quiz History's User Answer 
 
 - **Method**: `GET`
-- **URL**: `/api/quizzes/answers`
-- **Description**: Get the quiz answers for the authenticated user
+- **URL**: `/api/quizzes/histories/{historyId}/answers`
+- **Description**: Get the user answers of a quiz from the authenticated user
 - **Response**:
   - **Success**:
     - **Description**: Valid quiz answers
