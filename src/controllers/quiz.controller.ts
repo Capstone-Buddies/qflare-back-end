@@ -57,7 +57,16 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
         message: "Successfully generated quiz",
         data: {
           quizId: quizHistoryId,
-          questions,
+          questions: questions.map((q) => {
+            return {
+              id: q.id,
+              question: q.question,
+              option1: q.option1,
+              option2: q.option2,
+              option3: q.option3,
+              option4: q.option4,
+            }
+          }),
         },
       })
       .status(200);
