@@ -25,6 +25,10 @@ export const createQuiz = async (
   quizCategory: string,
 ) => {
   const timestamp = new Date();
+  if (timestamp.getMilliseconds() >= 500) {
+    timestamp.setSeconds(timestamp.getSeconds() + 1);
+  }
+  timestamp.setMilliseconds(0);
 
   const categoryId = await getCategoryId(quizCategory);
 
