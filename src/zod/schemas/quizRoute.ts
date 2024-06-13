@@ -1,5 +1,8 @@
-import { z } from "zod";
-import { AuthenticatedTypedRequest, ExpressRequestSchema } from "./expressRequest";
+import { number, z } from "zod";
+import {
+  AuthenticatedTypedRequest,
+  ExpressRequestSchema,
+} from "./expressRequest";
 
 export const generateQuizSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),
@@ -18,7 +21,18 @@ export const generateQuizSchema = new ExpressRequestSchema({
   queryParamsSchema: z.object({}),
 });
 
-export type GenerateQuizRequest = AuthenticatedTypedRequest<typeof generateQuizSchema>;
+export type GenerateQuizRequest = AuthenticatedTypedRequest<
+  typeof generateQuizSchema
+>;
+
+export const calculateQuizSchema = new ExpressRequestSchema({
+  paramsSchema: z.object({}),
+  bodySchema: z.object({
+    quizId: number(),
+    answers: z.array(z.object({ questionId: z.string(), answer: z.string() })),
+  }),
+  queryParamsSchema: z.object({}),
+});
 
 export const getQuizAnswersSchema = new ExpressRequestSchema({
   paramsSchema: z.object({
@@ -28,4 +42,6 @@ export const getQuizAnswersSchema = new ExpressRequestSchema({
   queryParamsSchema: z.object({}),
 });
 
-export type GetQuizAnswersRequest = AuthenticatedTypedRequest<typeof getQuizAnswersSchema>;
+export type GetQuizAnswersRequest = AuthenticatedTypedRequest<
+  typeof getQuizAnswersSchema
+>;
