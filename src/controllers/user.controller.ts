@@ -38,6 +38,7 @@ export const getLeaderboard = async (
   }
 };
 
+
 // NOTE: Controllers for optional  endpoints, develop later if have more time
 // export const updateUserProfile = async (req: Request, res: Response) => {
 //   // TODO: Implement updateUserProfile
