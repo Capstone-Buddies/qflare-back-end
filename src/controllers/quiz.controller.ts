@@ -1,18 +1,22 @@
 // quiz.controller
 import { status } from "@/constants";
 import { db } from "@/drizzle/db";
-import { answerHistories, quizQuestions } from "@/drizzle/schema";
+import { AnswerHistoryType, quizQuestions } from "@/drizzle/schema";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import {
   createQuiz,
-  getQuizHistoryAnswers,
   getUserQuizHistories,
+  getUserQuizHistoryAnswers,
+  insertQuizAnswerBatch,
+  reviewUserQuiz,
 } from "@/models/quiz.model";
+import { updateUserStats } from "@/models/user.model";
 import {
+  CalculateQuizRequest,
   GenerateQuizRequest,
   GetQuizAnswersRequest,
 } from "@/zod/schemas/quizRoute";
-import { Request, Response } from "express";
+import { Response } from "express";
 
 export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
   // TODO: Implement generateQuiz
@@ -35,21 +39,17 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
     );
 
     // TODO: Implement real answer insertion
-    for (const question of questions) {
-      await db.insert(answerHistories).values({
-        quizHistoryId: quizHistoryId,
+    const basAnswers: AnswerHistoryType[] = questions.map((question) => {
+      return {
+        quizHistoryId,
         questionId: question.id,
-
-        // Randomize user answer
-        userAnswer: Math.floor(Math.random() * (4 - 1 + 1)) + 1,
-
-        // Randomize correctness
+        userAnswer: null,
         correctness: 0,
+        duration: 60,
+      };
+    });
 
-        // Randomize duration
-        duration: Math.floor(Math.random() * (60 - 1 + 1)) + 1,
-      });
-    }
+    await insertQuizAnswerBatch(basAnswers);
 
     return res
       .json({
@@ -65,7 +65,7 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
               option2: q.option2,
               option3: q.option3,
               option4: q.option4,
-            }
+            };
           }),
         },
       })
@@ -78,12 +78,38 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
   }
 };
 
-export const calculateQuiz = async (req: Request, res: Response) => {
+export const calculateQuiz = async (
+  req: CalculateQuizRequest,
+  res: Response,
+) => {
   // TODO: Implement caculateQuiz
+  // TODO: This is dummy implementation, replace it with real implementation later
+  const { quizId, answers } = req.body;
+
+  const userId = req.user!.id;
+  const userLevel = req.user!.level as number;
+  const userExp = req.user!.exp as number;
+
+  const quizGrade = await reviewUserQuiz(quizId, answers);
+
+  const expGain = (quizGrade / 100.0) * 500;
+  let newExp = userExp + expGain;
+  const newLevel = userLevel + (newExp > 1000 ? userLevel + 1 : userLevel);
+  newExp = newExp > 1000 ? newExp - 1000 : newExp;
+
+  await updateUserStats(userId, newLevel, newExp);
+
   return res
     .json({
       status: status.success,
       message: "This endpoint has not implemented yet",
+      data: {
+        // TODO: review if all these data are needed
+        grade: quizGrade,
+        expGain,
+        newLevel,
+        newExp,
+      },
     })
     .status(200);
 };
@@ -125,7 +151,7 @@ export const getQuizAnswers = async (
   const historyId: number = parseInt(req.params.historyId);
 
   try {
-    const answers = await getQuizHistoryAnswers(historyId, userId);
+    const answers = await getUserQuizHistoryAnswers(historyId, userId);
     return res.status(200).json({
       status: status.success,
       data: { answers },
