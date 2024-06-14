@@ -90,28 +90,35 @@ export const calculateQuiz = async (
   const userLevel = req.user!.level as number;
   const userExp = req.user!.exp as number;
 
-  const quizGrade = await reviewUserQuiz(quizId, answers);
+  try {
+    const quizGrade = await reviewUserQuiz(quizId, answers);
 
-  const expGain = (quizGrade / 100.0) * 500;
-  let newExp = userExp + expGain;
-  const newLevel = userLevel + (newExp > 1000 ? userLevel + 1 : userLevel);
-  newExp = newExp > 1000 ? newExp - 1000 : newExp;
+    const expGain = (quizGrade / 100.0) * 500;
+    let newExp = userExp + expGain;
+    const newLevel = userLevel + (newExp > 1000 ? userLevel + 1 : userLevel);
+    newExp = newExp > 1000 ? newExp - 1000 : newExp;
 
-  await updateUserStats(userId, newLevel, newExp);
+    await updateUserStats(userId, newLevel, newExp);
 
-  return res
-    .json({
-      status: status.success,
-      message: "This endpoint has not implemented yet",
-      data: {
-        // TODO: review if all these data are needed
-        grade: quizGrade,
-        expGain,
-        newLevel,
-        newExp,
-      },
-    })
-    .status(200);
+    return res
+      .json({
+        status: status.success,
+        message: "This endpoint has not implemented yet",
+        data: {
+          // TODO: review if all these data are needed
+          grade: quizGrade,
+          expGain,
+          newLevel,
+          newExp,
+        },
+      })
+      .status(200);
+  } catch (error) {
+    return res.status(500).json({
+      status: status.fail,
+      message: "An error occurred while calculating quiz",
+    });
+  }
 };
 
 export const getQuizHistories = async (
