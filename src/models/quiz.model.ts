@@ -5,6 +5,7 @@ import {
   quizCategories,
   answerHistories,
   quizQuestions,
+  AnswerHistoryType,
 } from "@/drizzle/schema";
 
 export const getCategoryId = async (quizCategory: string) => {
@@ -56,6 +57,50 @@ export const createQuiz = async (
   return quizHistoryId;
 };
 
+export const reviewUserQuiz = async (
+  quizHistoryId: number,
+  summary: { questionId: number; userAnswer: number; duration: number }[],
+) => {
+  const correctAnswers = await db
+    .select({
+      questionId: quizQuestions.id,
+      correctAnswer: quizQuestions.answer,
+    })
+    .from(quizQuestions)
+    .innerJoin(
+      answerHistories,
+      eq(quizQuestions.id, answerHistories.questionId),
+    )
+    .where(eq(answerHistories.quizHistoryId, quizHistoryId));
+
+  const correctAnswersMap = new Map<number, number>(
+    correctAnswers.map((item) => [item.questionId, item.correctAnswer]),
+  );
+
+  let grade = 0;
+
+  for (const { userAnswer, duration } of summary) {
+    const correctness =
+      userAnswer === correctAnswersMap.get(userAnswer) ? 1 : 0;
+
+    grade += correctness;
+
+    await db.update(answerHistories).set({
+      userAnswer,
+      correctness,
+      duration,
+    });
+  }
+
+  return grade;
+};
+
+export const insertQuizAnswerBatch = async (answers: AnswerHistoryType[]) => {
+  for (const answer of answers) {
+    await db.insert(answerHistories).values(answer);
+  }
+};
+
 export const getUserQuizHistories = async (userId: string) => {
   try {
     const histories = await db
@@ -80,8 +125,9 @@ export const getUserQuizHistories = async (userId: string) => {
   }
 };
 
-export const getQuizHistoryAnswers = async (
-  historyId: number,
+export const getUserQuizHistoryAnswers = async (
+  quizHistoryId: number,
+  // NOTE: does this param needed anyway?
   userId: string,
 ) => {
   const history = await db
@@ -103,7 +149,7 @@ export const getQuizHistoryAnswers = async (
     )
     .where(
       and(
-        eq(answerHistories.quizHistoryId, historyId),
+        eq(answerHistories.quizHistoryId, quizHistoryId),
         eq(quizHistories.userId, userId),
       ),
     );
