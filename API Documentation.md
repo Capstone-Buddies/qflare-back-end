@@ -214,6 +214,56 @@ This API documentation provides information on how to interact with the Qflare A
 
 #### 2.2.2. Calculate Quiz
 
+- **Method**: `POST`
+- **URL**: `/api/quizzes/result`
+- **Description**: Calculate the result of a quiz for the authenticated user
+- **Request Body**:
+  ```json
+  {
+    "quizId": 1,
+    "answers": [
+      {
+        "questionId": 1,
+        "userAnswer": 2, // valid values: 1 | 2 | 3 | 4
+        "duration": 34 // in seconds
+      },
+      {
+        "questionId": 2,
+        "userAnswer": 2,
+        "duration": 34
+      }
+      // ... more answers until 10
+    ]
+  }
+  ```
+- **Response**:
+  - **Success**:
+    - **Description**: Valid quiz result
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "data": {
+          "grade": 90,
+          "expGain": 100,
+          "newLevel": 1
+          "newExp": 760,
+        },
+        "message": "Successfully calculated quiz"
+      }
+      ```
+  - **Internal Server Error: Unable to calculate Quiz**
+    - **Description**: Unable to calculate Quiz due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while calculate quiz"
+      }
+      ```
+
 #### 2.2.3. Get Quiz Histories
 
 - **Method**: `GET`
