@@ -19,6 +19,7 @@
     - [2.3. User](#23-user)
       - [2.3.1. Get User Profile](#231-get-user-profile)
       - [2.3.2. Get User Leaderboard](#232-get-users-leaderboard)
+      - [2.3.3. Update User Profile Image](#233-update-user-profile-image)
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
 
@@ -35,7 +36,7 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `POST`
 - **URL**: `/api/auth/register`
 - **Description**: Register a new user
-- **Request Body**:
+- **Request Body (json)**:
   ```json
   {
     "username": "john_doe",
@@ -85,7 +86,7 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `POST`
 - **URL**: `/api/auth/login`
 - **Description**: Login a user
-- **Request Body**:
+- **Request Body (json)**:
   ```json
   {
     "email": "john@example.com",
@@ -133,6 +134,12 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `GET`
 - **URL**: `/api/auth/logout`
 - **Description**: Logout a user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid logout
@@ -162,7 +169,13 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `POST`
 - **URL**: `/api/quizzes`
 - **Description**: Generate a quiz for the authenticated user
-- **Request Body**:
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
+- **Request Body (json)**:
   ```json
   {
     "quizCategory": "Literasi" // "Literasi" | "TPS"
@@ -217,7 +230,13 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `POST`
 - **URL**: `/api/quizzes/result`
 - **Description**: Calculate the result of a quiz for the authenticated user
-- **Request Body**:
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
+- **Request Body (json)**:
   ```json
   {
     "quizId": 1,
@@ -269,6 +288,12 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `GET`
 - **URL**: `/api/quizzes/histories`
 - **Description**: Get the quiz histories for the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid histories
@@ -312,11 +337,17 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
-#### 2.2.4. Get Quiz History's User Answer 
+#### 2.2.4. Get Quiz History's User Answer
 
 - **Method**: `GET`
 - **URL**: `/api/quizzes/histories/{historyId}/answers`
 - **Description**: Get the user answers of a quiz from the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid quiz answers
@@ -371,6 +402,12 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `GET`
 - **URL**: `/api/users/my-profile`
 - **Description**: Get the profile of the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid user profile
@@ -390,11 +427,18 @@ This API documentation provides information on how to interact with the Qflare A
         "message": "Successfully retrieved user profile"
       }
       ```
+
 #### 2.3.2. Get Users Leaderboard
 
 - **Method**: `GET`
 - **URL**: `/api/users/leaderboard`
 - **Description**: Get the leaderbord based on exp users
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid leaderboard
@@ -440,7 +484,6 @@ This API documentation provides information on how to interact with the Qflare A
         "message": "Leaderboard fetched successfully"
       }
       ```
-      
   - **Internal Server Error: Unable to get Leaderboard**:
     - **Description**: Unable to get leaderboard due to many reasons
     - **Status Code**: `500 Internal Server Error`
