@@ -452,6 +452,45 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
+#### 2.3.3. Update User Profile Image
+
+- **Method**: `PUT`
+- **URL**: `/api/users/my-profile/image`
+- **Description**: Update the profile image of the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
+- **Request Body (multipart/form-data)**:
+  ```json
+  {
+    "profileImg": "profile.jpg" // should be a image file
+  }
+  ```
+- **Response**:
+  - **Success**:
+    - **Description**: Valid user profile image updated
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "message": "Successfully updated user profile image"
+      }
+      ```
+  - **Internal Server Error: Unable to update User Profile Image**:
+    - **Description**: Unable to update user profile image due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while update user profile image"
+      }
+      ```
+
 ## 3. Other Error
 
 ### 3.1. Invalid Request
