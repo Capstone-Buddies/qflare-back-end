@@ -1,4 +1,5 @@
 FROM oven/bun:latest
+# FROM node:lts-iron
 
 WORKDIR /app
 
@@ -13,7 +14,10 @@ ENV ML_API_BASE_URL=
 COPY . .
 
 RUN bun install
+# RUN npm install && npm run build:node
 
 EXPOSE 3000
 
 CMD ["bun", "run", "src/index.ts"]
+# CMD ["npm", "start"]
+
