@@ -45,6 +45,8 @@ MYSQL_DB_HOST=
 MYSQL_DB_USER=
 MYSQL_DB_PASSWORD=
 MYSQL_DB_NAME=
+JWT_SECRET=
+ML_API_BASE_URL=
 ```
 
 4. Run the database migrations
