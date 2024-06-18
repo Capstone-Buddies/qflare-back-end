@@ -5,6 +5,7 @@ import { AnswerHistoryType, quizQuestions } from "@/drizzle/schema";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import {
   createQuiz,
+  getQuizExp,
   getQuizRecommendation,
   getUserQuizHistories,
   getUserQuizHistoryAnswers,
@@ -26,10 +27,7 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
   const { quizCategory } = req.body;
   const { id: userId, level } = req.user!;
   try {
-    const questions = await getQuizRecommendation(
-      userId,
-      quizCategory,
-    );
+    const questions = await getQuizRecommendation(userId, quizCategory);
 
     const quizHistoryId = await createQuiz(
       userId,
@@ -56,12 +54,12 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
         message: "Successfully generated quiz",
         data: {
           quizId: quizHistoryId,
-          questions
+          questions,
         },
       })
       .status(200);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       status: status.fail,
       message: "An error occurred while generating quiz",
@@ -82,11 +80,11 @@ export const calculateQuiz = async (
   const userExp = req.user!.exp as number;
 
   try {
-    const quizGrade = await reviewUserQuiz(quizId, answers);
+    const { grade, detailResult } = await reviewUserQuiz(quizId, answers);
 
-    const expGain = (quizGrade / 100.0) * 500;
+    const expGain = await getQuizExp(detailResult);
     let newExp = userExp + expGain;
-    const newLevel = userLevel + (newExp > 1000 ? userLevel + 1 : userLevel);
+    const newLevel = userLevel + (newExp > 1000 ? 1 : 0);
     newExp = newExp > 1000 ? newExp - 1000 : newExp;
 
     await updateUserStats(userId, newLevel, newExp);
@@ -97,7 +95,7 @@ export const calculateQuiz = async (
         message: "This endpoint has not implemented yet",
         data: {
           // TODO: review if all these data are needed
-          grade: quizGrade,
+          grade,
           expGain,
           newLevel,
           newExp,

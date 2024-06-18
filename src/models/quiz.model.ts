@@ -60,7 +60,7 @@ export const createQuiz = async (
 
 export const reviewUserQuiz = async (
   quizHistoryId: number,
-  summary: { questionId: number; userAnswer: number; duration: number }[],
+  answerRecord: { questionId: number; userAnswer: number; duration: number }[],
 ) => {
   const correctAnswers = await db
     .select({
@@ -78,11 +78,24 @@ export const reviewUserQuiz = async (
     correctAnswers.map((item) => [item.questionId, item.correctAnswer]),
   );
 
-  let grade = 0;
+  let grade: number = 0;
+  let detailResult: {
+    questionId: number;
+    userAnswer: number;
+    duration: number;
+    correctness: number;
+  }[] = [];
 
-  for (const { userAnswer, duration } of summary) {
+  for (const { questionId, userAnswer, duration } of answerRecord) {
     const correctness =
       userAnswer === correctAnswersMap.get(userAnswer) ? 1 : 0;
+
+    detailResult.push({
+      questionId,
+      userAnswer,
+      duration,
+      correctness,
+    });
 
     grade += correctness;
 
@@ -93,7 +106,7 @@ export const reviewUserQuiz = async (
     });
   }
 
-  return grade;
+  return { grade: grade * 10, detailResult };
 };
 
 export const insertQuizAnswerBatch = async (answers: AnswerHistoryType[]) => {
@@ -216,4 +229,39 @@ export const getQuizRecommendation = async (
   );
 
   return recommendedQuestions;
+};
+
+export const getQuizExp = async (
+  quizResult: {
+    questionId: number;
+    userAnswer: number;
+    duration: number;
+    correctness: number;
+  }[],
+) => {
+  const answers = quizResult.map(({ correctness, duration }) => [
+    correctness,
+    duration,
+  ]);
+
+  const expGain = await fetch(`${process.env.ML_API_BASE_URL}/exp`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ answers }),
+  });
+
+  type response = {
+    status: string;
+    data: {
+      exp: number;
+    };
+  };
+
+  const {
+    data: { exp },
+  } = (await expGain.json()) as response;
+
+  return exp;
 };
