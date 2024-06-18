@@ -1,11 +1,8 @@
-import { login, logout, register } from "@/controllers/auth.controller";
-import authMiddleware from "@/middlewares/auth.middleware";
-import { requestValidationMiddleware } from "@/middlewares/requestValidation.middleware";
-import {
-  loginSchema,
-  registerSchema,
-} from "@/zod/schemas/authRoute";
 import express from "express";
+import { register, login, logout } from "../controllers/auth.controller";
+import authMiddleware from "../middlewares/auth.middleware";
+import { requestValidationMiddleware } from "../middlewares/requestValidation.middleware";
+import { registerSchema, loginSchema } from "../zod/schemas/authRoute";
 
 const authRouter = express.Router();
 

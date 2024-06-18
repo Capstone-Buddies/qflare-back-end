@@ -1,6 +1,6 @@
-import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import { Request } from "express";
 import { z, ZodObject, ZodRawShape, ZodTypeAny } from "zod";
+import { AuthenticatedRequest } from "../../middlewares/auth.middleware";
 
 export class ExpressRequestSchema<
   TBody extends ZodRawShape = ZodRawShape,

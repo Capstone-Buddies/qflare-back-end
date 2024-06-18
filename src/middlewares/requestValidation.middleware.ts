@@ -1,17 +1,17 @@
-import {
-  ExpressRequestSchema,
-  TypedRequest,
-} from "@/zod/schemas/expressRequest";
 import { NextFunction, Response } from "express";
 import { ZodRawShape } from "zod";
 import { AuthenticatedRequest } from "./auth.middleware";
+import {
+  ExpressRequestSchema,
+  TypedRequest,
+} from "../zod/schemas/expressRequest";
 
 export const requestValidationMiddleware = <
   TBody extends ZodRawShape = {},
   TQueryParams extends ZodRawShape = {},
   TParams extends ZodRawShape = {},
 >(
-  schema: ExpressRequestSchema<TBody, TQueryParams, TParams> ,
+  schema: ExpressRequestSchema<TBody, TQueryParams, TParams>,
 ) => {
   return (
     req: TypedRequest<typeof schema> & AuthenticatedRequest,

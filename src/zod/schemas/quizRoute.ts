@@ -1,5 +1,5 @@
-import { validCategories } from "@/constants";
 import { number, z } from "zod";
+import { validCategories } from "../../constants";
 import {
   AuthenticatedTypedRequest,
   ExpressRequestSchema,

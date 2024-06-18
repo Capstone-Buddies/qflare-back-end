@@ -1,10 +1,10 @@
-import { status } from "@/constants";
-import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
-import { generateToken, invalidateToken } from "@/models/auth.model";
-import { addUser, findUserByEmail, getUserByEmail } from "@/models/user.model";
-import { LoginRequest, RegisterRequest } from "@/zod/schemas/authRoute";
 import bcrypt from "bcryptjs";
 import { Response } from "express";
+import { status } from "../constants";
+import { AuthenticatedRequest } from "../middlewares/auth.middleware";
+import { generateToken, invalidateToken } from "../models/auth.model";
+import { addUser, findUserByEmail, getUserByEmail } from "../models/user.model";
+import { LoginRequest, RegisterRequest } from "../zod/schemas/authRoute";
 
 // Register User
 export const register = async (req: RegisterRequest, res: Response) => {
