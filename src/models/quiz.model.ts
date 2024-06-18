@@ -1,5 +1,5 @@
 import { db } from "@/drizzle/db";
-import { and, eq } from "drizzle-orm";
+import { SQL, and, eq, sql } from "drizzle-orm";
 import {
   quizHistories,
   quizCategories,
@@ -7,6 +7,7 @@ import {
   quizQuestions,
   AnswerHistoryType,
 } from "@/drizzle/schema";
+import { validCategories } from "@/constants";
 
 export const getCategoryId = async (quizCategory: string) => {
   const { categoryId } = (
@@ -160,4 +161,59 @@ export const getUserQuizHistoryAnswers = async (
       correctness: correctness === 1 ? true : false,
     };
   });
+};
+
+export const getQuizRecommendation = async (
+  userId: string,
+  quizCategory: string,
+) => {
+  const recommendedQuestionId = await fetch(
+    `${process.env.ML_API_BASE_URL}/recommendation`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, quizCategory: quizCategory }),
+    },
+  );
+
+  type response = {
+    status: string;
+    data: {
+      questions: number[];
+    };
+  };
+
+  const {
+    data: { questions: questionIds },
+  } = (await recommendedQuestionId.json()) as response;
+
+  const whereClause: SQL[] = questionIds.map((questionId, index) => {
+    if (index === questionIds.length - 1) {
+      return sql`id = ${questionId}`;
+    }
+
+    return sql`id = ${questionId} OR`;
+  });
+
+  const recommendedQuestions = await db
+    .select({
+      id: quizQuestions.id,
+      question: quizQuestions.question,
+      option1: quizQuestions.option1,
+      option2: quizQuestions.option2,
+      option3: quizQuestions.option3,
+      option4: quizQuestions.option4,
+    })
+    .from(quizQuestions)
+    .where(sql.join(whereClause, sql.raw(" ")));
+
+  console.log("questionIds", questionIds);
+  console.log(
+    "recommendedQuestions",
+    recommendedQuestions.map((q) => q.id),
+  );
+
+  return recommendedQuestions;
 };
