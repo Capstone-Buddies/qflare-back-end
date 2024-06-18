@@ -1,13 +1,12 @@
 import { db } from "@/drizzle/db";
-import { SQL, and, eq, sql } from "drizzle-orm";
 import {
-  quizHistories,
-  quizCategories,
-  answerHistories,
-  quizQuestions,
   AnswerHistoryType,
+  answerHistories,
+  quizCategories,
+  quizHistories,
+  quizQuestions,
 } from "@/drizzle/schema";
-import { validCategories } from "@/constants";
+import { SQL, and, eq, sql } from "drizzle-orm";
 
 export const getCategoryId = async (quizCategory: string) => {
   const { categoryId } = (

@@ -1,9 +1,9 @@
+import { validCategories } from "@/constants";
 import { number, z } from "zod";
 import {
   AuthenticatedTypedRequest,
   ExpressRequestSchema,
 } from "./expressRequest";
-import { validCategories } from "@/constants";
 
 export const generateQuizSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),

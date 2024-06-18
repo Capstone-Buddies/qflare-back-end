@@ -1,7 +1,6 @@
 // quiz.controller
 import { status } from "@/constants";
-import { db } from "@/drizzle/db";
-import { AnswerHistoryType, quizQuestions } from "@/drizzle/schema";
+import { AnswerHistoryType } from "@/drizzle/schema";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
 import {
   createQuiz,
