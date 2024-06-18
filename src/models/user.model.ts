@@ -37,6 +37,7 @@ export const getUserByEmail = async (email: string) => {
     .where(eq(users.email, email.toLowerCase()))
     .limit(1);
 };
+
 export const getLeaderboardQuery = async () => {
   return db
     .select({
@@ -49,3 +50,7 @@ export const getLeaderboardQuery = async () => {
     .orderBy(sql`${users.level} DESC`)
     .limit(10);
 };
+
+export const updateUserStats = async (userId: string, level: number, exp: number) => {
+  await db.update(users).set({ level, exp }).where(eq(users.id, userId));
+}

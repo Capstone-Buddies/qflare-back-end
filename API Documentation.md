@@ -19,6 +19,7 @@
     - [2.3. User](#23-user)
       - [2.3.1. Get User Profile](#231-get-user-profile)
       - [2.3.2. Get User Leaderboard](#232-get-users-leaderboard)
+      - [2.3.3. Update User Profile Image](#233-update-user-profile-image)
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
 
@@ -35,7 +36,7 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `POST`
 - **URL**: `/api/auth/register`
 - **Description**: Register a new user
-- **Request Body**:
+- **Request Body (json)**:
   ```json
   {
     "username": "john_doe",
@@ -85,7 +86,7 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `POST`
 - **URL**: `/api/auth/login`
 - **Description**: Login a user
-- **Request Body**:
+- **Request Body (json)**:
   ```json
   {
     "email": "john@example.com",
@@ -133,6 +134,12 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `GET`
 - **URL**: `/api/auth/logout`
 - **Description**: Logout a user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid logout
@@ -159,13 +166,134 @@ This API documentation provides information on how to interact with the Qflare A
 
 #### 2.2.1. Generate Quiz
 
+- **Method**: `POST`
+- **URL**: `/api/quizzes`
+- **Description**: Generate a quiz for the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
+- **Request Body (json)**:
+  ```json
+  {
+    "quizCategory": "Literasi" // "Literasi" | "TPS"
+  }
+  ```
+- **Response**:
+  - **Success**:
+    - **Description**: Valid quiz generated
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "data": {
+          "quizId": "1",
+          "questions": [
+            {
+              "id": "1",
+              "question": "Lawan kata monoton",
+              "option1": "Bergerak-gerak",
+              "option2": "Berulang-ulang ",
+              "option3": "Berubah-ubah",
+              "option4": "Terus menerus"
+            },
+            {
+              "id": "2",
+              "question": "Lawan kata monoton",
+              "option1": "Bergerak-gerak",
+              "option2": "Berulang-ulang ",
+              "option3": "Berubah-ubah",
+              "option4": "Terus menerus"
+            }
+            // ... more questions until 10
+          ]
+        },
+        "message": "Successfully generated quiz"
+      }
+      ```
+  - **Internal Server Error: Unable to generate Quiz**
+    - **Description**: Unable to generate Quiz due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while generate quiz"
+      }
+      ```
+
 #### 2.2.2. Calculate Quiz
+
+- **Method**: `POST`
+- **URL**: `/api/quizzes/result`
+- **Description**: Calculate the result of a quiz for the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
+- **Request Body (json)**:
+  ```json
+  {
+    "quizId": 1,
+    "answers": [
+      {
+        "questionId": 1,
+        "userAnswer": 2, // valid values: 1 | 2 | 3 | 4
+        "duration": 34 // in seconds
+      },
+      {
+        "questionId": 2,
+        "userAnswer": 2,
+        "duration": 34
+      }
+      // ... more answers until 10
+    ]
+  }
+  ```
+- **Response**:
+  - **Success**:
+    - **Description**: Valid quiz result
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "data": {
+          "grade": 90,
+          "expGain": 100,
+          "newLevel": 1
+          "newExp": 760,
+        },
+        "message": "Successfully calculated quiz"
+      }
+      ```
+  - **Internal Server Error: Unable to calculate Quiz**
+    - **Description**: Unable to calculate Quiz due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while calculate quiz"
+      }
+      ```
 
 #### 2.2.3. Get Quiz Histories
 
 - **Method**: `GET`
 - **URL**: `/api/quizzes/histories`
 - **Description**: Get the quiz histories for the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid histories
@@ -209,11 +337,17 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
-#### 2.2.4. Get Quiz Answers
+#### 2.2.4. Get Quiz History's User Answer
 
 - **Method**: `GET`
-- **URL**: `/api/quizzes/answers`
-- **Description**: Get the quiz answers for the authenticated user
+- **URL**: `/api/quizzes/histories/{historyId}/answers`
+- **Description**: Get the user answers of a quiz from the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid quiz answers
@@ -268,6 +402,12 @@ This API documentation provides information on how to interact with the Qflare A
 - **Method**: `GET`
 - **URL**: `/api/users/my-profile`
 - **Description**: Get the profile of the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid user profile
@@ -287,11 +427,18 @@ This API documentation provides information on how to interact with the Qflare A
         "message": "Successfully retrieved user profile"
       }
       ```
+
 #### 2.3.2. Get Users Leaderboard
 
 - **Method**: `GET`
 - **URL**: `/api/users/leaderboard`
 - **Description**: Get the leaderbord based on exp users
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
 - **Response**:
   - **Success**:
     - **Description**: Valid leaderboard
@@ -337,7 +484,6 @@ This API documentation provides information on how to interact with the Qflare A
         "message": "Leaderboard fetched successfully"
       }
       ```
-      
   - **Internal Server Error: Unable to get Leaderboard**:
     - **Description**: Unable to get leaderboard due to many reasons
     - **Status Code**: `500 Internal Server Error`
@@ -346,6 +492,45 @@ This API documentation provides information on how to interact with the Qflare A
       {
         "status": "fail",
         "message": "An error occurred while load Leaderboard"
+      }
+      ```
+
+#### 2.3.3. Update User Profile Image
+
+- **Method**: `PUT`
+- **URL**: `/api/users/my-profile/image`
+- **Description**: Update the profile image of the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
+- **Request Body (multipart/form-data)**:
+  ```json
+  {
+    "profileImg": "profile.jpg" // should be a image file
+  }
+  ```
+- **Response**:
+  - **Success**:
+    - **Description**: Valid user profile image updated
+    - **Status Code**: `200 OK`
+    - **Response Body**:
+      ```json
+      {
+        "status": "success",
+        "message": "Successfully updated user profile image"
+      }
+      ```
+  - **Internal Server Error: Unable to update User Profile Image**:
+    - **Description**: Unable to update user profile image due to many reasons
+    - **Status Code**: `500 Internal Server Error`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "An error occurred while update user profile image"
       }
       ```
 

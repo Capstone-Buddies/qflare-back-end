@@ -1,5 +1,5 @@
 import { string, z } from "zod";
-import { AuthenticatedTypedRequest, ExpressRequestSchema, TypedRequest } from "./expressRequest";
+import { ExpressRequestSchema, TypedRequest } from "./expressRequest";
 
 export const registerSchema = new ExpressRequestSchema({
   paramsSchema: z.object({}),

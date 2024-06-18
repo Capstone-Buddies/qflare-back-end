@@ -6,14 +6,14 @@ import {
 } from "@/controllers/quiz.controller";
 import authMiddleware from "@/middlewares/auth.middleware";
 import { requestValidationMiddleware } from "@/middlewares/requestValidation.middleware";
-import { getQuizAnswersSchema } from "@/zod/schemas/quizRoute";
+import { generateQuizSchema, getQuizAnswersSchema } from "@/zod/schemas/quizRoute";
 import express from "express";
 
 const quizRouter = express.Router();
 
 quizRouter.use(authMiddleware);
 
-quizRouter.post("/", generateQuiz);
+quizRouter.post("/", requestValidationMiddleware(generateQuizSchema), generateQuiz);
 quizRouter.post("/result", calculateQuiz);
 quizRouter.get("/histories", getQuizHistories);
 quizRouter.get(
@@ -23,3 +23,4 @@ quizRouter.get(
 );
 
 export default quizRouter;
+
