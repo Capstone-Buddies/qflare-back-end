@@ -1,4 +1,8 @@
-import { getLeaderboard, getUserProfile } from "@/controllers/user.controller";
+import {
+  getLeaderboard,
+  getUserProfile,
+  updateUserProfile,
+} from "@/controllers/user.controller";
 import authMiddleware, {
   AuthenticatedRequest,
 } from "@/middlewares/auth.middleware";
@@ -18,6 +22,7 @@ userRouter.delete(
 );
 userRouter.get("/my-profile", getUserProfile);
 userRouter.get("/leaderboard", authMiddleware, getLeaderboard);
+userRouter.post("/updateUserProfile", authMiddleware, updateUserProfile);
 
 // NOTE: Optional endpoints, develop later if have more time
 // userRouter.put("/my-profile", (_req, res) => res.json({ message: "Hello, user!" }));
