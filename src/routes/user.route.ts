@@ -1,12 +1,12 @@
+import express from "express";
 import {
   getLeaderboard,
   getUserProfile,
   updateUserProfile,
-} from "@/controllers/user.controller";
+} from "../controllers/user.controller";
 import authMiddleware, {
   AuthenticatedRequest,
-} from "@/middlewares/auth.middleware";
-import express from "express";
+} from "../middlewares/auth.middleware";
 
 const userRouter = express.Router();
 

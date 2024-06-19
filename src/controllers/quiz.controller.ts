@@ -1,7 +1,6 @@
-// quiz.controller
-import { status } from "@/constants";
-import { AnswerHistoryType } from "@/drizzle/schema";
-import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
+import { Response } from "express";
+import { AnswerHistoryType } from "../drizzle/schema";
+import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 import {
   createQuiz,
   getQuizExp,
@@ -10,14 +9,14 @@ import {
   getUserQuizHistoryAnswers,
   insertQuizAnswerBatch,
   reviewUserQuiz,
-} from "@/models/quiz.model";
-import { updateUserStats } from "@/models/user.model";
+} from "../models/quiz.model";
+import { updateUserStats } from "../models/user.model";
 import {
   CalculateQuizRequest,
   GenerateQuizRequest,
   GetQuizAnswersRequest,
-} from "@/zod/schemas/quizRoute";
-import { Response } from "express";
+} from "../zod/schemas/quizRoute";
+import { status } from "../constants";
 
 export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
   // TODO: Implement generateQuiz

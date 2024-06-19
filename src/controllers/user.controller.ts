@@ -1,13 +1,13 @@
-import { status } from "@/constants";
-import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
+import { Response } from "express";
+import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 import {
   getLeaderboardQuery,
   updateUserProfileImage,
   uploadFileToGCS,
-} from "@/models/user.model";
-import { Response } from "express";
+} from "../models/user.model";
+import { status } from "../constants";
 
-import { processFileConfig } from "@/config/storage.config";
+import { processFileConfig } from "../config/storage.config";
 
 export const getUserProfile = async (
   req: AuthenticatedRequest,
@@ -48,14 +48,8 @@ export const updateUserProfile = async (
   req: AuthenticatedRequest,
   res: Response
 ) => {
+  const userId = req.user!.id;
   try {
-    const userId = req.user?.id;
-    if (!userId) {
-      return res
-        .status(401)
-        .json({ status: status.fail, message: "Unauthorized" });
-    }
-
     await processFileConfig(req, res);
 
     const file = req.file;
