@@ -19,6 +19,7 @@
     - [2.3. User](#23-user)
       - [2.3.1. Get User Profile](#231-get-user-profile)
       - [2.3.2. Get User Leaderboard](#232-get-users-leaderboard)
+      - [2.3.3. Change User Profile Image](#233-change-user-profile-image)
 
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
