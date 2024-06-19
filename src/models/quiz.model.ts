@@ -1,11 +1,118 @@
 import { db } from "@/drizzle/db";
-import { and, eq } from "drizzle-orm";
 import {
-  quizHistories,
-  quizCategories,
+  AnswerHistoryType,
   answerHistories,
+  quizCategories,
+  quizHistories,
   quizQuestions,
 } from "@/drizzle/schema";
+import { SQL, and, eq, sql } from "drizzle-orm";
+
+export const getCategoryId = async (quizCategory: string) => {
+  const { categoryId } = (
+    await db
+      .select({ categoryId: quizCategories.id })
+      .from(quizCategories)
+      .where(eq(quizCategories.quizCategory, quizCategory))
+      .limit(1)
+  )[0];
+
+  return categoryId;
+};
+
+export const createQuiz = async (
+  userId: string,
+  level: number,
+  quizCategory: string,
+) => {
+  const timestamp = new Date();
+  if (timestamp.getMilliseconds() >= 500) {
+    timestamp.setSeconds(timestamp.getSeconds() + 1);
+  }
+  timestamp.setMilliseconds(0);
+
+  const categoryId = await getCategoryId(quizCategory);
+
+  await db.insert(quizHistories).values({
+    userId: userId,
+    timestamp: timestamp,
+    grade: 0,
+    level: level,
+    quizCategoryId: categoryId,
+  });
+
+  const { quizHistoryId } = (
+    await db
+      .select({ quizHistoryId: quizHistories.id })
+      .from(quizHistories)
+      .where(
+        and(
+          eq(quizHistories.userId, userId),
+          eq(quizHistories.timestamp, timestamp),
+        ),
+      )
+      .limit(1)
+  )[0];
+
+  return quizHistoryId;
+};
+
+export const reviewUserQuiz = async (
+  quizHistoryId: number,
+  answerRecord: { questionId: number; userAnswer: number; duration: number }[],
+) => {
+  const correctAnswers = await db
+    .select({
+      questionId: quizQuestions.id,
+      correctAnswer: quizQuestions.answer,
+    })
+    .from(quizQuestions)
+    .innerJoin(
+      answerHistories,
+      eq(quizQuestions.id, answerHistories.questionId),
+    )
+    .where(eq(answerHistories.quizHistoryId, quizHistoryId));
+
+  const correctAnswersMap = new Map<number, number>(
+    correctAnswers.map((item) => [item.questionId, item.correctAnswer]),
+  );
+
+  let grade: number = 0;
+  let detailResult: {
+    questionId: number;
+    userAnswer: number;
+    duration: number;
+    correctness: number;
+  }[] = [];
+
+  for (const { questionId, userAnswer, duration } of answerRecord) {
+    const correctness =
+      userAnswer === correctAnswersMap.get(userAnswer) ? 1 : 0;
+
+    detailResult.push({
+      questionId,
+      userAnswer,
+      duration,
+      correctness,
+    });
+
+    grade += correctness;
+
+    await db.update(answerHistories).set({
+      userAnswer,
+      correctness,
+      duration,
+    });
+  }
+
+  return { grade: grade * 10, detailResult };
+};
+
+export const insertQuizAnswerBatch = async (answers: AnswerHistoryType[]) => {
+  for (const answer of answers) {
+    await db.insert(answerHistories).values(answer);
+  }
+};
 
 export const getUserQuizHistories = async (userId: string) => {
   try {
@@ -31,8 +138,9 @@ export const getUserQuizHistories = async (userId: string) => {
   }
 };
 
-export const getQuizHistoryAnswers = async (
-  historyId: number,
+export const getUserQuizHistoryAnswers = async (
+  quizHistoryId: number,
+  // NOTE: does this param needed anyway?
   userId: string,
 ) => {
   const history = await db
@@ -54,7 +162,7 @@ export const getQuizHistoryAnswers = async (
     )
     .where(
       and(
-        eq(answerHistories.quizHistoryId, historyId),
+        eq(answerHistories.quizHistoryId, quizHistoryId),
         eq(quizHistories.userId, userId),
       ),
     );
@@ -65,4 +173,94 @@ export const getQuizHistoryAnswers = async (
       correctness: correctness === 1 ? true : false,
     };
   });
+};
+
+export const getQuizRecommendation = async (
+  userId: string,
+  quizCategory: string,
+) => {
+  const recommendedQuestionId = await fetch(
+    `${process.env.ML_API_BASE_URL}/recommendation`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, quizCategory: quizCategory }),
+    },
+  );
+
+  type response = {
+    status: string;
+    data: {
+      questions: number[];
+    };
+  };
+
+  const {
+    data: { questions: questionIds },
+  } = (await recommendedQuestionId.json()) as response;
+
+  const whereClause: SQL[] = questionIds.map((questionId, index) => {
+    if (index === questionIds.length - 1) {
+      return sql`id = ${questionId}`;
+    }
+
+    return sql`id = ${questionId} OR`;
+  });
+
+  const recommendedQuestions = await db
+    .select({
+      id: quizQuestions.id,
+      question: quizQuestions.question,
+      option1: quizQuestions.option1,
+      option2: quizQuestions.option2,
+      option3: quizQuestions.option3,
+      option4: quizQuestions.option4,
+    })
+    .from(quizQuestions)
+    .where(sql.join(whereClause, sql.raw(" ")));
+
+  console.log("questionIds", questionIds);
+  console.log(
+    "recommendedQuestions",
+    recommendedQuestions.map((q) => q.id),
+  );
+
+  return recommendedQuestions;
+};
+
+export const getQuizExp = async (
+  quizResult: {
+    questionId: number;
+    userAnswer: number;
+    duration: number;
+    correctness: number;
+  }[],
+) => {
+  const answers = quizResult.map(({ correctness, duration }) => [
+    correctness,
+    duration,
+  ]);
+
+  const expGain = await fetch(`${process.env.ML_API_BASE_URL}/exp`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ answers }),
+  });
+
+  type response = {
+    status: string;
+    data: {
+      exp: number;
+    };
+  };
+
+  const {
+    data: { exp },
+  } = (await expGain.json()) as response;
+
+  return exp;
 };

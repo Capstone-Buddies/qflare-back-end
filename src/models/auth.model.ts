@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
 import { db } from "@/drizzle/db";
 import { users } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import jwt from "jsonwebtoken";
 
 export const generateToken = async (userId: string, email: string) => {
   const jwtSecret = process.env.JWT_SECRET as string;
