@@ -1,7 +1,13 @@
 import { status } from "@/constants";
 import { AuthenticatedRequest } from "@/middlewares/auth.middleware";
-import { getLeaderboardQuery } from "@/models/user.model";
+import {
+  getLeaderboardQuery,
+  updateUserProfileImage,
+  uploadFileToGCS,
+} from "@/models/user.model";
 import { Response } from "express";
+
+import { processFileConfig } from "@/config/storage.config";
 
 export const getUserProfile = async (
   req: AuthenticatedRequest,
@@ -38,18 +44,41 @@ export const getLeaderboard = async (
   }
 };
 
+export const updateUserProfile = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ status: status.fail, message: "Unauthorized" });
+    }
 
-// NOTE: Controllers for optional  endpoints, develop later if have more time
-// export const updateUserProfile = async (req: Request, res: Response) => {
-//   // TODO: Implement updateUserProfile
-//   return res
-//     .json({ status: status.success, message: "This endpoint has not implemented yet" })
-//     .status(200);
-// };
+    await processFileConfig(req, res);
 
-// export const deleteAccount = async (req: Request, res: Response) => {
-//   // TODO: Implement deleteAccount
-//   return res
-//     .json({ status: status.success, message: "This endpoint has not implemented yet" })
-//     .status(200);
-// };
+    const file = req.file;
+    if (!file) {
+      return res
+        .status(400)
+        .json({ status: status.fail, message: "No file uploaded" });
+    }
+
+    const profileImageUrl = await uploadFileToGCS(file);
+
+    await updateUserProfileImage(userId, profileImageUrl);
+
+    return res.status(200).json({
+      status: status.success,
+      data: { profileImageUrl },
+      message: "Profile image change successfully",
+    });
+  } catch (error) {
+    console.error("Error updating profile image:", error);
+    return res.status(500).json({
+      status: status.fail,
+      message: "An error occurred while change user profile image",
+    });
+  }
+};

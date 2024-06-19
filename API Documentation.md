@@ -19,7 +19,7 @@
     - [2.3. User](#23-user)
       - [2.3.1. Get User Profile](#231-get-user-profile)
       - [2.3.2. Get User Leaderboard](#232-get-users-leaderboard)
-      - [2.3.3. Update User Profile Image](#233-update-user-profile-image)
+      - [2.3.3. Change User Profile Image](#233-change-user-profile-image)
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
 
@@ -495,11 +495,11 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
-#### 2.3.3. Update User Profile Image
+#### 2.3.3. Change User Profile Image
 
-- **Method**: `PUT`
+- **Method**: `POST`
 - **URL**: `/api/users/my-profile/image`
-- **Description**: Update the profile image of the authenticated user
+- **Description**: Change the profile image of the authenticated user
 - **Request Headers**:
   ```json
   {
@@ -509,28 +509,41 @@ This API documentation provides information on how to interact with the Qflare A
 - **Request Body (multipart/form-data)**:
   ```json
   {
-    "profileImg": "profile.jpg" // should be a image file
+    "profile_img_url": "profile.jpg" // should be a image file
   }
   ```
 - **Response**:
   - **Success**:
-    - **Description**: Valid user profile image updated
-    - **Status Code**: `200 OK`
+    - **Description**: Valid user profile image change
+    - **Status Code**: `201 Created`
     - **Response Body**:
       ```json
       {
         "status": "success",
-        "message": "Successfully updated user profile image"
+        "data": {
+          "profileImageUrl": "https://storage.googleapis.com/qflarebucket/.....jpg"
+        },
+        "message": "Profile image change successfully"
       }
       ```
-  - **Internal Server Error: Unable to update User Profile Image**:
-    - **Description**: Unable to update user profile image due to many reasons
+  - **Bad Request: Unable to change profile because no file selected**:
+    - **Description**: Unable to change the profile image because no file was selected.
+    - **Status Code**: `400 Bad request`
+    - **Response Body**:
+      ```json
+      {
+        "status": "fail",
+        "message": "No file uploaded"
+      }
+      ```
+  - **Internal Server Error: Unable to change User Profile Image**:
+    - **Description**: Unable to change user profile image due to many reasons
     - **Status Code**: `500 Internal Server Error`
     - **Response Body**:
       ```json
       {
         "status": "fail",
-        "message": "An error occurred while update user profile image"
+        "message": "An error occurred while change user profile image"
       }
       ```
 

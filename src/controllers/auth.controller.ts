@@ -9,6 +9,8 @@ import { Response } from "express";
 // Register User
 export const register = async (req: RegisterRequest, res: Response) => {
   const { username, email, password, schoolOrigin } = req.body;
+  const profileImgUrl =
+    "https://storage.googleapis.com/qflarebucket/24-248253_user-profile-default-image-png-clipart-png-download.png";
 
   try {
     const existingUser = await findUserByEmail(email);
@@ -20,7 +22,7 @@ export const register = async (req: RegisterRequest, res: Response) => {
       });
     }
 
-    await addUser(username, email, password, schoolOrigin);
+    await addUser(username, email, password, schoolOrigin, profileImgUrl);
 
     return res.status(201).json({
       status: status.success,

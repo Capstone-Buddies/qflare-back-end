@@ -11,7 +11,7 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     schoolOrigin: "SMA Negeri Dummy 1",
     password: "Admin01",
     profileImgUrl:
-      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
+      "https://storage.googleapis.com/qflarebucket/24-248253_user-profile-default-image-png-clipart-png-download.png",
   },
   {
     id: nanoid(32),
@@ -20,7 +20,7 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     schoolOrigin: "SMA DummyData 2",
     password: "bambangP20",
     profileImgUrl:
-      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
+      "https://storage.googleapis.com/qflarebucket/24-248253_user-profile-default-image-png-clipart-png-download.png",
   },
   {
     id: nanoid(32),
@@ -38,7 +38,7 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     schoolOrigin: "MAN 1 Dummy",
     password: "clairVoyance1",
     profileImgUrl:
-      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
+      "https://storage.googleapis.com/qflarebucket/24-248253_user-profile-default-image-png-clipart-png-download.png",
   },
   {
     id: nanoid(32),
@@ -47,6 +47,6 @@ export const usersDummy: Omit<UserDummyType, "level" | "token" | "exp">[] = [
     schoolOrigin: "MA 1 Dummy",
     password: "MenyalaAbangkuh99",
     profileImgUrl:
-      "https://storage.cloud.google.com/image_profilee/933-9332131_profile-picture-default-png.png",
+      "https://storage.googleapis.com/qflarebucket/24-248253_user-profile-default-image-png-clipart-png-download.png",
   },
 ];
