@@ -350,21 +350,34 @@ This API documentation provides information on how to interact with the Qflare A
       }
       ```
 
-#### 2.3.3. Change Users Profile
+#### 2.3.3. Change User Profile Image
 
 - **Method**: `POST`
-- **URL**: `/api/users/updateUserProfile`
-- **Description**: Change user profile image
+- **URL**: `/api/users/my-profile/image`
+- **Description**: Change the profile image of the authenticated user
+- **Request Headers**:
+  ```json
+  {
+    "Authorization": "Bearer {{jwt_token}}" // token from login
+  }
+  ```
+- **Request Body (multipart/form-data)**:
+  ```json
+  {
+    "profile_img_url": "profile.jpg" // should be a image file
+  }
+  ```
 - **Response**:
+
   - **Success**:
-    - **Description**: Valid Change
+    - **Description**: Valid user profile image change
     - **Status Code**: `201 Created`
     - **Response Body**:
       ```json
       {
         "status": "success",
         "data": {
-          "profileImageUrl": "https://storage.googleapis.com/qflarebucket/bad-request.jpg"
+          "profileImageUrl": "https://storage.googleapis.com/qflarebucket/.....jpg"
         },
         "message": "Profile image change successfully"
       }
@@ -379,14 +392,14 @@ This API documentation provides information on how to interact with the Qflare A
         "message": "No file uploaded"
       }
       ```
-  - **Internal Server Error: Unable change user profile**:
-    - **Description**: Unable to change profile image due to many reason
+  - **Internal Server Error: Unable to change User Profile Image**:
+    - **Description**: Unable to change user profile image due to many reasons
     - **Status Code**: `500 Internal Server Error`
     - **Response Body**:
       ```json
       {
         "status": "fail",
-        "message": "Unable to change profile image"
+        "message": "An error occurred while change user profile image"
       }
       ```
 
