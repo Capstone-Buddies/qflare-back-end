@@ -48,14 +48,8 @@ export const updateUserProfile = async (
   req: AuthenticatedRequest,
   res: Response
 ) => {
+  const userId = req.user!.id;
   try {
-    const userId = req.user?.id;
-    if (!userId) {
-      return res
-        .status(401)
-        .json({ status: status.fail, message: "Unauthorized" });
-    }
-
     await processFileConfig(req, res);
 
     const file = req.file;

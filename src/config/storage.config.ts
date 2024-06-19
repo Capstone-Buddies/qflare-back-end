@@ -6,11 +6,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const storage = new Storage({
-  keyFilename: process.env.KEY_CREDENTIALS,
-  projectId: process.env.PROJECT_ID,
+  keyFilename: process.env.GCP_KEYFILE_PATH,
+  projectId: process.env.GCP_PROJECT_ID,
 });
 
-const bucket = storage.bucket("qflarebucket");
+const bucket = storage.bucket(`${process.env.GCP_BUCKET_NAME!}`);
 
 const multerConfig = multer({
   storage: multer.memoryStorage(),

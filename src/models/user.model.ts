@@ -3,7 +3,7 @@ import { eq, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { db } from "../drizzle/db";
 import { users } from "../drizzle/schema";
-import { bucket } from "@/config/storage.config";
+import { bucket } from "../config/storage.config";
 
 export const findUserByEmail = async (email: string) => {
   return await db.select().from(users).where(eq(users.email, email));
