@@ -78,7 +78,7 @@ export const updateUserProfile = async (
     console.error("Error updating profile image:", error);
     return res.status(500).json({
       status: status.fail,
-      message: "Unable to change profile image",
+      message: "An error occurred while change user profile image",
     });
   }
 };
