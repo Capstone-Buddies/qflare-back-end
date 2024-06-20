@@ -15,11 +15,12 @@
       - [2.2.1. Generate Quiz](#221-generate-quiz)
       - [2.2.2. Calculate Quiz](#222-calculate-quiz)
       - [2.2.3. Get Quiz Histories](#223-get-quiz-histories)
-      - [2.2.4. Get Quiz Answers](#224-get-quiz-answers)
+      - [2.2.4. Get Quiz History's User Answer](#224-get-quiz-historys-user-answer)
     - [2.3. User](#23-user)
       - [2.3.1. Get User Profile](#231-get-user-profile)
       - [2.3.2. Get User Leaderboard](#232-get-users-leaderboard)
       - [2.3.3. Change User Profile Image](#233-change-user-profile-image)
+
   - [3. Other Error](#3-other-error)
     - [3.1. Invalid Request](#31-invalid-request)
 
