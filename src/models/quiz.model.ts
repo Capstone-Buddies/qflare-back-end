@@ -87,7 +87,7 @@ export const reviewUserQuiz = async (
 
   for (const { questionId, userAnswer, duration } of answerRecord) {
     const correctness =
-      userAnswer === correctAnswersMap.get(userAnswer) ? 1 : 0;
+      userAnswer === correctAnswersMap.get(questionId) ? 1 : 0;
 
     detailResult.push({
       questionId,
@@ -98,14 +98,34 @@ export const reviewUserQuiz = async (
 
     grade += correctness;
 
-    await db.update(answerHistories).set({
-      userAnswer,
-      correctness,
-      duration,
-    });
+    await db
+      .update(answerHistories)
+      .set({
+        userAnswer,
+        correctness,
+        duration,
+      })
+      .where(
+        and(
+          eq(answerHistories.quizHistoryId, quizHistoryId),
+          eq(answerHistories.questionId, questionId),
+        ),
+      );
   }
 
   return { grade: grade * 10, detailResult };
+};
+
+export const updateQuizHistory = async (
+  quizHistoryId: number,
+  value: { grade: number },
+) => {
+  const { grade } = value;
+
+  await db
+    .update(quizHistories)
+    .set({ grade })
+    .where(eq(quizHistories.id, quizHistoryId));
 };
 
 export const insertQuizAnswerBatch = async (answers: AnswerHistoryType[]) => {
@@ -179,27 +199,43 @@ export const getQuizRecommendation = async (
   userId: string,
   quizCategory: string,
 ) => {
-  const recommendedQuestionId = await fetch(
-    `${process.env.ML_API_BASE_URL}/recommendation`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId, quizCategory: quizCategory }),
-    },
+  const x = quizCategory === "TPS" ? 1 : 601;
+  const y = quizCategory === "TPS" ? 600 : 1000;
+  let questionIds: number[] = Array.from(
+    { length: 10 },
+    () => Math.floor(Math.random() * (y - x + 1)) + x,
   );
+  console.log("questionIds", questionIds);
 
-  type response = {
-    status: string;
-    data: {
-      questions: number[];
+  try {
+    const recommendedQuestionId = await fetch(
+      `${process.env.ML_API_BASE_URL}/recommendation`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, quizCategory: quizCategory }),
+      },
+    );
+
+    type response = {
+      status: string;
+      data: {
+        questions: number[];
+      };
     };
-  };
 
-  const {
-    data: { questions: questionIds },
-  } = (await recommendedQuestionId.json()) as response;
+    const {
+      data: { questions },
+    } = (await recommendedQuestionId.json()) as response;
+
+    if (questions.length === 10) {
+      questionIds = questions;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 
   const whereClause: SQL[] = questionIds.map((questionId, index) => {
     if (index === questionIds.length - 1) {

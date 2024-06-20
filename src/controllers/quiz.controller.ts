@@ -9,6 +9,7 @@ import {
   getUserQuizHistoryAnswers,
   insertQuizAnswerBatch,
   reviewUserQuiz,
+  updateQuizHistory,
 } from "../models/quiz.model";
 import { updateUserStats } from "../models/user.model";
 import {
@@ -87,12 +88,13 @@ export const calculateQuiz = async (
 
     await updateUserStats(userId, newLevel, newExp);
 
+    await updateQuizHistory(quizId, { grade });
+
     return res
       .json({
         status: status.success,
-        message: "This endpoint has not implemented yet",
+        message: "Successfully calculated quiz",
         data: {
-          // TODO: review if all these data are needed
           grade,
           expGain,
           newLevel,
