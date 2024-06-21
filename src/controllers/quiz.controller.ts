@@ -58,7 +58,6 @@ export const generateQuiz = async (req: GenerateQuizRequest, res: Response) => {
       })
       .status(200);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       status: status.fail,
       message: "An error occurred while generating quiz",

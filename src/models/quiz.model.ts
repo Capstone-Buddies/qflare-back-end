@@ -205,7 +205,6 @@ export const getQuizRecommendation = async (
     { length: 10 },
     () => Math.floor(Math.random() * (y - x + 1)) + x,
   );
-  console.log("questionIds", questionIds);
 
   try {
     const recommendedQuestionId = await fetch(
@@ -233,9 +232,7 @@ export const getQuizRecommendation = async (
     if (questions.length === 10) {
       questionIds = questions;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 
   const whereClause: SQL[] = questionIds.map((questionId, index) => {
     if (index === questionIds.length - 1) {
@@ -256,12 +253,6 @@ export const getQuizRecommendation = async (
     })
     .from(quizQuestions)
     .where(sql.join(whereClause, sql.raw(" ")));
-
-  console.log("questionIds", questionIds);
-  console.log(
-    "recommendedQuestions",
-    recommendedQuestions.map((q) => q.id),
-  );
 
   return recommendedQuestions;
 };
