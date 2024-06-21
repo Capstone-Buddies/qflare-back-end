@@ -10,7 +10,7 @@ import { LoginRequest, RegisterRequest } from "../zod/schemas/authRoute";
 export const register = async (req: RegisterRequest, res: Response) => {
   const { username, email, password, schoolOrigin } = req.body;
   const profileImgUrl =
-    "https://storage.googleapis.com/qflareuserimages/Default%20User%20Profile.png";
+    "https://storage.googleapis.com/qflareuserimages/default%20image%20profile.png";
 
   try {
     const existingUser = await findUserByEmail(email);
